@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Messages 👽</title>
+    <title>Shared Note</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@
 
         #timer {
             color: red;
-
+            font-weight: bold; /* Adiciona negrito ao número do temporizador */
         }
 
         /* Estilos para o modo escuro */
@@ -94,12 +94,22 @@
 
                 if (seconds < 0) {
                     clearInterval(timer);
+                    showContentSentMessage(); // Exibe a mensagem por mais tempo
                     clearContent();
                     startTimer();  // Reinicia automaticamente
                 } else {
                     updateTimerDisplay();
                 }
             }, 1000);
+        }
+
+        function showContentSentMessage() {
+            const timerContainer = document.getElementById("timerContainer");
+            timerContainer.textContent = "Time's up! Content is sent to the intergalactic vault. 🚀";
+            // Mantém a mensagem por mais tempo (5 segundos)
+            setTimeout(function () {
+                timerContainer.textContent = ""; // Limpa a mensagem após 5 segundos
+            }, 5000);
         }
 
         function clearContent() {
