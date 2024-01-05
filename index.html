@@ -104,13 +104,15 @@
         }
 
         function showContentSentMessage() {
-            const timerContainer = document.getElementById("timerContainer");
-            timerContainer.textContent = "Time's up! Content is sent to the intergalactic vault. 🚀";
-            // Mantém a mensagem por mais tempo (5 segundos)
-            setTimeout(function () {
-                timerContainer.textContent = ""; // Limpa a mensagem após 5 segundos
-            }, 5000);
-        }
+    const timerContainer = document.getElementById("timerContainer");
+    timerContainer.textContent = "Time's up! Content is sent to the intergalactic vault. 🚀";
+    
+    // Mantém a mensagem por mais tempo (5 segundos)
+    setTimeout(function () {
+        timerContainer.textContent = ""; // Limpa a mensagem após 5 segundos
+    }, 5000);
+}
+
 
         function clearContent() {
             const contentTextarea = document.getElementById("content");
