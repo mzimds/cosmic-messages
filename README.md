@@ -1,2 +1,0 @@
-# cosmic-messages
-Cosmic Messages
