@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shared Note</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            transition: background-color 0.5s;
+        }
+
+        textarea {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 10px;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #timer {
+            color: red;
+
+        }
+
+        /* Estilos para o modo escuro */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #ffffff;
+        }
+
+        .dark-mode textarea {
+            background-color: #363636;
+            color: #ffffff;
+        }
+
+        /* Botão de alternância do modo escuro */
+        #darkModeToggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Adiciona estilos para telas menores */
+        @media screen and (max-width: 600px) {
+            textarea {
+                height: 200px;
+            }
+        }
+
+        @media screen and (max-width: 400px) {
+            textarea {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Share Your Cosmic Messages 👽🌌</h1>
+    <textarea id="content" placeholder="Type your text here..."></textarea>
+    <div id="timerContainer">Time remaining: <span id="timer">10</span> seconds</div>
+    <div id="darkModeToggle" onclick="toggleDarkMode()">🌙</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let timer;
+
+        document.getElementById("content").addEventListener("input", function () {
+            const contentTextarea = document.getElementById("content");
+            const content = contentTextarea.value;
+
+            socket.emit('updateContent', content);
+        });
+
+        function startTimer() {
+            let seconds = 10;
+
+            function updateTimerDisplay() {
+                document.getElementById("timerContainer").textContent = seconds > 0 ? `Time remaining: ${seconds} seconds` : "Time's up! Content is sent to the intergalactic vault. 🚀";
+            }
+
+            updateTimerDisplay();
+
+            timer = setInterval(function () {
+                seconds--;
+
+                if (seconds < 0) {
+                    clearInterval(timer);
+                    clearContent();
+                    startTimer();  // Reinicia automaticamente
+                } else {
+                    updateTimerDisplay();
+                }
+            }, 1000);
+        }
+
+        function clearContent() {
+            const contentTextarea = document.getElementById("content");
+            contentTextarea.value = "";
+        }
+
+        socket.on('updateContent', function (content) {
+            const contentTextarea = document.getElementById("content");
+            contentTextarea.value = content;
+            resetTimer();
+        });
+
+        function resetTimer() {
+            clearInterval(timer);
+            startTimer();
+        }
+
+        function toggleDarkMode() {
+            const body = document.body;
+            body.classList.toggle("dark-mode");
+        }
+
+        // Inicie o temporizador quando a página for carregada
+        startTimer();
+    </script>
+</body>
+
+</html>
