@@ -47,7 +47,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Adiciona estilos para telas menores */
+        /* Estilos para telas menores */
         @media screen and (max-width: 600px) {
             textarea {
                 height: 200px;
@@ -71,6 +71,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
         const socket = io();
+        let timer;
 
         document.getElementById("content").addEventListener("input", function () {
             const contentTextarea = document.getElementById("content");
@@ -80,7 +81,7 @@
         });
 
         function startTimer() {
-            let seconds = 10;
+            let seconds = 20;
 
             function updateTimerDisplay() {
                 document.getElementById("timerContainer").textContent = seconds > 0 ? `Time remaining: ${seconds} seconds` : "Time's up! Content is sent to the intergalactic vault. 🚀";
@@ -106,7 +107,7 @@
             const timerContainer = document.getElementById("timerContainer");
             timerContainer.textContent = "Time's up! Content is sent to the intergalactic vault. 🚀";
 
-            // Mantém a mensagem por mais tempo (5 segundos)
+            // Mantém a mensagem por mais tempo (8 segundos)
             setTimeout(function () {
                 timerContainer.textContent = ""; // Limpa a mensagem após 5 segundos
             }, 5000);
