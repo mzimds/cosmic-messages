@@ -63,7 +63,7 @@
 </head>
 
 <body>
-    <h1>Send Your Cosmic Messages 🌌</h1>
+    <h1>Share Your Cosmic Messages 👽🌌</h1>
     <textarea id="content" placeholder="Type your text here..."></textarea>
     <div id="timerContainer">Time remaining: <span id="timer">10</span> seconds</div>
     <div id="darkModeToggle" onclick="toggleDarkMode()">🌙</div>
@@ -71,7 +71,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
         const socket = io();
-        let timer;
 
         document.getElementById("content").addEventListener("input", function () {
             const contentTextarea = document.getElementById("content");
@@ -94,9 +93,8 @@
 
                 if (seconds < 0) {
                     clearInterval(timer);
-                    showContentSentMessage(); // Exibe a mensagem por 5 segundos
+                    showContentSentMessage(); // Exibe a mensagem por mais tempo
                     clearContent();
-                    seconds = 10; // Reinicia o temporizador
                     startTimer();  // Reinicia automaticamente
                 } else {
                     updateTimerDisplay();
@@ -108,7 +106,7 @@
             const timerContainer = document.getElementById("timerContainer");
             timerContainer.textContent = "Time's up! Content is sent to the intergalactic vault. 🚀";
 
-            // Mantém a mensagem por 5 segundos
+            // Mantém a mensagem por mais tempo (5 segundos)
             setTimeout(function () {
                 timerContainer.textContent = ""; // Limpa a mensagem após 5 segundos
             }, 5000);
