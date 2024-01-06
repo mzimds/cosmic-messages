@@ -47,18 +47,6 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        /* Botão de alternância do modo claro */
-        #lightModeToggle {
-            position: fixed;
-            top: 60px;
-            right: 20px;
-            cursor: pointer;
-            background-color: #ffffff;
-            padding: 10px;
-            border-radius: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
         /* Estilos para telas menores */
         @media screen and (max-width: 600px) {
             textarea {
@@ -79,7 +67,6 @@
     <textarea id="content" placeholder="Type your text here..."></textarea>
     <div id="timerContainer">Time remaining: <span id="timer">20</span> seconds</div>
     <div id="darkModeToggle" onclick="toggleDarkMode()">🌙</div>
-    <div id="lightModeToggle" onclick="toggleLightMode()">☀️</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
@@ -147,5 +134,9 @@
             body.classList.toggle("dark-mode");
         }
 
-        function toggleLightMode() {
-            const body = document
+        // Inicie o temporizador quando a página for carregada
+        startTimer();
+    </script>
+</body>
+
+</html>
