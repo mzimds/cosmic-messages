@@ -55,22 +55,25 @@
         }
 
         #pathToGo .prefix {
+            padding: 8px 15px;
+            display: flex;
             font-size: 14px;
-            margin-right: 10px;
-            color: #999;
+            background-color: #dedede;
+            margin-right: 0px;
+            color: #000000;
         }
 
         #pathToGo input {
-            padding: 8px;
+            padding: 7px;
             font-size: 14px;
             background-color: #f3f3f3;
-            color: #000000;
+            color: #999;
             transition: background-color 0.5s, color 0.5s;
             border: 1px solid #ccc;
         }
 
         #pathToGo button {
-            padding: 8px 15px;
+            padding: 8px 14px;
             font-size: 14px;
             cursor: pointer;
             background-color: #A9A9A9;
@@ -85,6 +88,14 @@
 
         #chatRoom {
             display: none;
+        }
+
+        #noLoginRequired {
+            text-align: center;
+            margin-top: 3px;
+            color: #000000;
+            font-size: 14px;
+            display: block;
         }
     </style>
 </head>
@@ -101,6 +112,10 @@
     <div id="chatRoom">
         <h1>Send Your Cosmic Messages</h1>
         <textarea id="content" placeholder="Type your text here..."></textarea>
+    </div>
+
+    <div id="noLoginRequired">
+        No login required
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
@@ -130,10 +145,12 @@
             const path = pathInput.value.trim();
             const pathToGo = document.getElementById('pathToGo');
             const chatRoom = document.getElementById('chatRoom');
+            const noLoginRequired = document.getElementById('noLoginRequired');
 
             if (path !== "") {
                 pathToGo.style.display = 'none';
                 chatRoom.style.display = 'block';
+                noLoginRequired.style.display = 'none';
 
                 // Adicione esta linha para atualizar o histórico do navegador
                 window.location.hash = `#${path}`;
@@ -149,15 +166,18 @@
         window.addEventListener('hashchange', function () {
             const pathToGo = document.getElementById('pathToGo');
             const chatRoom = document.getElementById('chatRoom');
+            const noLoginRequired = document.getElementById('noLoginRequired');
 
             if (window.location.hash === `#${getChatRoomId()}`) {
                 // Se a hash for a sala de chat, exiba a sala de chat
                 pathToGo.style.display = 'none';
                 chatRoom.style.display = 'block';
+                noLoginRequired.style.display = 'none';
             } else {
                 // Se não, exiba o caminho para ir
                 pathToGo.style.display = 'block';
                 chatRoom.style.display = 'none';
+                noLoginRequired.style.display = 'block';
             }
         });
 
