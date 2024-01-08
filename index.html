@@ -5,49 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cosmic Messages 🌌</title>
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
-            transition: background-color 0.5s;
+            background-color: #ffffff;
+            color: #000000;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        h1 {
+            color: #333;
+            font-family: Arial, sans-serif;
         }
 
         textarea {
             width: 100%;
             height: 300px;
             margin-bottom: 10px;
+            background-color: #f3f3f3;
+            color: #000000;
             transition: background-color 0.5s, color 0.5s;
         }
 
-        #timer {
-            color: red;
-            font-weight: bold; /* Adiciona negrito ao número do temporizador */
-        }
-
-        /* Estilos para o modo escuro */
-        body.dark-mode {
-            background-color: #1a1a1a;
-            color: #ffffff;
-        }
-
-        .dark-mode textarea {
-            background-color: #363636;
-            color: #ffffff;
-        }
-
-        /* Botão de alternância do modo escuro */
-        #darkModeToggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            cursor: pointer;
-            background-color: #ffffff;
-            padding: 10px;
-            border-radius: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Estilos para telas menores */
         @media screen and (max-width: 600px) {
             textarea {
                 height: 200px;
@@ -59,83 +41,133 @@
                 height: 150px;
             }
         }
+
+        #pathToGo {
+            text-align: center;
+            margin-top: 240px;
+            display: block;
+        }
+
+        #pathToGo form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #pathToGo .prefix {
+            font-size: 14px;
+            margin-right: 10px;
+            color: #999;
+        }
+
+        #pathToGo input {
+            padding: 8px;
+            font-size: 14px;
+            background-color: #f3f3f3;
+            color: #000000;
+            transition: background-color 0.5s, color 0.5s;
+            border: 1px solid #ccc;
+        }
+
+        #pathToGo button {
+            padding: 8px 15px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #A9A9A9;
+            color: #fff;
+            border: none;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #pathToGo button:hover {
+            background-color: #363636;
+        }
+
+        #chatRoom {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
-    <h1>Send Your Cosmic Messages 👽</h1>
-    <textarea id="content" placeholder="Type your text here..."></textarea>
-    <div id="timerContainer">Time remaining: <span id="timer">20</span> seconds</div>
-    <div id="darkModeToggle" onclick="toggleDarkMode()">🌙</div>
+    <div id="pathToGo">
+        <form onsubmit="createChatRoom(event)">
+            <p class="prefix">cosmic.com/</p>
+            <input type="search" name="path" id="search" autocapitalize="none" autocorrect="off" placeholder="your-secret-chat">
+            <button type="submit" class="disabled">Go!</button>
+        </form>
+    </div>
+
+    <div id="chatRoom">
+        <h1>Send Your Cosmic Messages</h1>
+        <textarea id="content" placeholder="Type your text here..."></textarea>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
         const socket = io();
-        let timer;
+
+        // Recuperar conteúdo do LocalStorage ao carregar a página
+        const storedContent = localStorage.getItem(getChatRoomId());
+        if (storedContent) {
+            document.getElementById('content').value = storedContent;
+        }
 
         document.getElementById("content").addEventListener("input", function () {
             const contentTextarea = document.getElementById("content");
             const content = contentTextarea.value;
 
+            // Armazenar conteúdo no LocalStorage
+            localStorage.setItem(getChatRoomId(), content);
+
             socket.emit('updateContent', content);
         });
 
-        function startTimer() {
-            let seconds = 20;
+        function createChatRoom(event) {
+            event.preventDefault();
 
-            function updateTimerDisplay() {
-                document.getElementById("timerContainer").textContent = seconds > 0 ? `Time remaining: ${seconds} seconds` : "Time's up! Content is sent to the intergalactic vault. 🚀";
-            }
+            const pathInput = document.getElementById("search");
+            const path = pathInput.value.trim();
+            const pathToGo = document.getElementById('pathToGo');
+            const chatRoom = document.getElementById('chatRoom');
 
-            updateTimerDisplay();
+            if (path !== "") {
+                pathToGo.style.display = 'none';
+                chatRoom.style.display = 'block';
 
-            timer = setInterval(function () {
-                seconds--;
-
-                if (seconds < 0) {
-                    clearInterval(timer);
-                    showContentSentMessage(); // Exibe a mensagem por mais tempo
-                    clearContent();
-                    startTimer();  // Reinicia automaticamente
-                } else {
-                    updateTimerDisplay();
+                // Adicione esta linha para atualizar o histórico do navegador
+                window.location.hash = `#${path}`;
+                // Adicione esta linha para atualizar o conteúdo da sala, se existir
+                const storedContent = localStorage.getItem(getChatRoomId());
+                if (storedContent) {
+                    document.getElementById('content').value = storedContent;
                 }
-            }, 1000);
+            }
         }
 
-        function showContentSentMessage() {
-            const timerContainer = document.getElementById("timerContainer");
-            timerContainer.textContent = "Time's up! Content is sent to the intergalactic vault. 🛸";
+        // Adicione o código para manipular o evento hashchange
+        window.addEventListener('hashchange', function () {
+            const pathToGo = document.getElementById('pathToGo');
+            const chatRoom = document.getElementById('chatRoom');
 
-            // Mantém a mensagem por mais tempo (8 segundos)
-            setTimeout(function () {
-                timerContainer.textContent = ""; // Limpa a mensagem após 5 segundos
-            }, 5000);
-        }
-
-        function clearContent() {
-            const contentTextarea = document.getElementById("content");
-            contentTextarea.value = "";
-        }
-
-        socket.on('updateContent', function (content) {
-            const contentTextarea = document.getElementById("content");
-            contentTextarea.value = content;
-            resetTimer();
+            if (window.location.hash === `#${getChatRoomId()}`) {
+                // Se a hash for a sala de chat, exiba a sala de chat
+                pathToGo.style.display = 'none';
+                chatRoom.style.display = 'block';
+            } else {
+                // Se não, exiba o caminho para ir
+                pathToGo.style.display = 'block';
+                chatRoom.style.display = 'none';
+            }
         });
 
-        function resetTimer() {
-            clearInterval(timer);
-            startTimer();
-        }
+        // Adicione esta linha para garantir que o hash seja manipulado ao carregar a página
+        window.dispatchEvent(new Event('hashchange'));
 
-        function toggleDarkMode() {
-            const body = document.body;
-            body.classList.toggle("dark-mode");
+        function getChatRoomId() {
+            // Obtenha o identificador da sala a partir do fragmento de URL
+            return window.location.hash.substr(1);
         }
-
-        // Inicie o temporizador quando a página for carregada
-        startTimer();
     </script>
 </body>
 
