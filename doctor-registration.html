@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mednote.io - Doctor Sign-Up</title>
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #ffffff;
+            color: #000000;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        input {
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 12px;
+            background-color: #A9A9A9;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        button:hover {
+            background-color: #363636;
+        }
+
+        .additional-text {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #000000;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .additional-text:hover {
+            color: #757575;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Doctor Sign-Up</h1>
+        <form id="registrationForm" onsubmit="validateForm(event)">
+            <input type="text" id="doctorProfile" name="doctorProfile" placeholder="Create a doctor profile" required pattern="[a-z0-9]+" title="Please use lowercase letters and no spaces for the profile.">
+            <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
+            <input type="email" id="email" name="email" placeholder="Your email address" required>
+            <input type="password" id="password" name="password" placeholder="Choose a secure password" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="additional-text" onclick="redirectToLogin()">
+            <p>Already have an account? Log in.</p>
+        </div>
+
+        <div class="additional-text" onclick="redirectToForgotPassword()">
+            <p>Forgot your password? Reset it.</p>
+        </div>
+    </div>
+
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+
+            // Obter os valores dos campos
+            const doctorProfile = document.getElementById('doctorProfile').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            // Validar o perfil do médico
+            const profileRegex = /^[a-z0-9]+$/;
+            if (!profileRegex.test(doctorProfile)) {
+                alert("Please use lowercase letters and no spaces for the profile.");
+                return;
+            }
+
+            // Validar o formato de e-mail
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
+
+            // Validar a senha e a confirmação de senha
+            if (password !== confirmPassword) {
+                alert("Passwords do not match.");
+                return;
+            }
+
+            // Se todas as validações passarem, você pode prosseguir com o envio do formulário ou outras ações necessárias
+            alert("Form submitted successfully!");
+        }
+
+        function redirectToLogin() {
+            // Adicione a lógica para redirecionar para a página de login
+            alert("Redirecting to login page.");
+        }
+
+        function redirectToForgotPassword() {
+            // Adicione a lógica para redirecionar para a página de redefinição de senha
+            alert("Redirecting to forgot password page.");
+        }
+    </script>
+</body>
+
+</html>
