@@ -14,17 +14,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh; /* Utilizei min-height em vez de height para evitar problemas em telas pequenas */
             background-color: #ffffff;
             color: #000000;
             transition: background-color 0.5s, color 0.5s;
-        }
-
-        .container {
-            background-color: #ffffff;
             padding: 20px;
-            border-radius: 0px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex-direction: column; /* Adicionei para que os elementos se alinhem verticalmente */
         }
 
         h1 {
@@ -38,17 +33,23 @@
         form {
             display: flex;
             flex-direction: column;
+            align-items: center; /* Centraliza os itens verticalmente */
+            width: 100%; /* Faz com que o formulário ocupe a largura total do corpo */
+            max-width: 400px; /* Adicionado um valor máximo para evitar que fique muito largo em telas grandes */
         }
 
         input {
+            width: 100%; /* Faz com que os inputs ocupem a largura total do formulário */
             padding: 10px;
             margin-bottom: 16px;
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 14px;
+            box-sizing: border-box; /* Garante que o padding não aumente a largura total */
         }
 
         button {
+            width: 100%; /* Faz com que o botão ocupe a largura total do formulário */
             padding: 12px;
             background-color: #A9A9A9;
             color: #fff;
@@ -74,28 +75,30 @@
         .additional-text:hover {
             color: #757575;
         }
+
+        .additional-text + .additional-text {
+            margin-top: -15px; /* Adicionei essa margem para ajustar o espaçamento entre os textos adicionais */
+        }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>Doctor Sign-Up</h1>
-        <form id="registrationForm" onsubmit="validateForm(event)">
-            <input type="text" id="doctorProfile" name="doctorProfile" placeholder="Create a doctor profile" required pattern="[a-z0-9]+" title="Please use lowercase letters and no spaces for the profile.">
-            <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
-            <input type="email" id="email" name="email" placeholder="Your email address" required>
-            <input type="password" id="password" name="password" placeholder="Choose a secure password" required>
-            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-            <button type="submit">Register</button>
-        </form>
+    <h1>Doctor Sign-Up</h1>
+    <form id="registrationForm" onsubmit="validateForm(event)">
+        <input type="text" id="doctorProfile" name="doctorProfile" placeholder="Create a doctor profile" required pattern="[a-z0-9]+" title="Please use lowercase letters and no spaces for the profile.">
+        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
+        <input type="email" id="email" name="email" placeholder="Your email address" required>
+        <input type="password" id="password" name="password" placeholder="Choose a secure password" required>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+        <button type="submit">Register</button>
+    </form>
 
-        <div class="additional-text" onclick="redirectToLogin()">
-            <p>Already have an account? Log in.</p>
-        </div>
+    <div class="additional-text" onclick="redirectToLogin()">
+        <p>Already have an account? Log in.</p>
+    </div>
 
-        <div class="additional-text" onclick="redirectToForgotPassword()">
-            <p>Forgot your password? Reset it.</p>
-        </div>
+    <div class="additional-text" onclick="redirectToForgotPassword()">
+        <p>Forgot your password? Reset it.</p>
     </div>
 
     <script>
