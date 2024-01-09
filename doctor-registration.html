@@ -10,7 +10,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 10px 0 0;
+            margin: 10px 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -23,11 +23,8 @@
         }
 
         h1 {
-            text-align: center;
-            color: #333;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            margin-bottom: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
 
         form {
@@ -65,8 +62,9 @@
         }
 
         .additional-text {
+            margin-top: 5px;
+            margin-bottom: 5px;
             text-align: center;
-            margin-top: 15px;
             font-size: 14px;
             color: #000000;
             cursor: pointer;
@@ -78,7 +76,24 @@
         }
 
         .additional-text + .additional-text {
-            margin-top: -15px;
+            margin-top: -5px;
+        }
+
+        /* Adicione uma consulta de mídia para ajustar o espaçamento em dispositivos móveis */
+        @media (max-width: 600px) {
+            body {
+                margin: 5px; /* Reduza ainda mais o espaço superior e inferior em dispositivos móveis */
+            }
+
+            h1 {
+                margin-top: 5px;
+                margin-bottom: 5px;
+            }
+
+            .additional-text {
+                margin-top: 3px;
+                margin-bottom: 3px;
+            }
         }
     </style>
 </head>
