@@ -23,6 +23,7 @@
 
         h1 {
             font-size: 30px;
+            margin: 0;
         }
 
         form {
@@ -67,6 +68,27 @@
 
         .additional-text:hover {
             color: #757575;
+        }
+
+        /* Adicione uma consulta de mídia para ajustar o espaçamento em dispositivos móveis */
+        @media (max-width: 600px) {
+            body {
+                margin: 0;
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            form {
+                margin-top: 10px;
+            }
+
+            .additional-text {
+                margin: 5px 0;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
