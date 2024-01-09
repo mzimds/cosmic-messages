@@ -19,9 +19,9 @@
         h1 {
             color: #333;
             font-family: Arial, sans-serif;
-            font-weight: bold; /* Adiciona negrito ao texto */
-            text-align: center; /* Alinha o texto ao centro */
-            margin-bottom: 10px; /* Adiciona margem abaixo do texto */
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
         }
 
         textarea {
@@ -51,7 +51,6 @@
         }
 
         #pathToGo {
-        
             text-align: center;
             display: block;
         }
@@ -98,13 +97,25 @@
             display: none;
         }
 
-        #noLoginRequired {
-            text-align: center;
-            margin-top: 3px;
-            color: #000000;
-            font-size: 14px;
-            display: block;
+        #Join {
+        text-align: center;
+        margin-top: 3px;
+        color: #000000;
+        font-size: 14px;
+        display: block;
+        cursor: pointer;
+        transition: color 0.3s;
         }
+
+        #Join:hover p {
+    color: #757575;
+        }
+
+
+        #Join p {
+        margin: 0;
+        }
+
 
         #newNoteButton {
             padding: 8px 14px;
@@ -142,9 +153,10 @@
         <textarea id="content" placeholder="Type your text here..."></textarea>
     </div>
 
-    <div id="noLoginRequired">
-        No login required
+    <div id="Join" onclick="redirectToRegistration()" style="cursor: pointer;">
+        <p>Join to collaborate and share patient notes.</p>
     </div>
+    
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
@@ -173,12 +185,12 @@
             const path = pathInput.value.trim();
             const pathToGo = document.getElementById('pathToGo');
             const chatRoom = document.getElementById('chatRoom');
-            const noLoginRequired = document.getElementById('noLoginRequired');
+            const Join = document.getElementById('Join');
 
             if (path !== "") {
                 pathToGo.style.display = 'none';
                 chatRoom.style.display = 'block';
-                noLoginRequired.style.display = 'none';
+                Join.style.display = 'none';
 
                 // Adicione esta linha para atualizar o histórico do navegador
                 window.location.hash = `#${path}`;
@@ -194,18 +206,18 @@
         window.addEventListener('hashchange', function () {
             const pathToGo = document.getElementById('pathToGo');
             const chatRoom = document.getElementById('chatRoom');
-            const noLoginRequired = document.getElementById('noLoginRequired');
+            const Join = document.getElementById('Join');
 
             if (window.location.hash === `#${getChatRoomId()}`) {
                 // Se a hash for a sala de chat, exiba a sala de chat
                 pathToGo.style.display = 'none';
                 chatRoom.style.display = 'block';
-                noLoginRequired.style.display = 'none';
+                Join.style.display = 'none';
             } else {
                 // Se não, exiba o caminho para ir
                 pathToGo.style.display = 'block';
                 chatRoom.style.display = 'none';
-                noLoginRequired.style.display = 'block';
+                Join.style.display = 'block';
             }
         });
 
