@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Messages 🌌</title>
+    <title>Mednote.io</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <style>
@@ -19,6 +19,9 @@
         h1 {
             color: #333;
             font-family: Arial, sans-serif;
+            font-weight: bold; /* Adiciona negrito ao texto */
+            text-align: center; /* Alinha o texto ao centro */
+            margin-bottom: 10px; /* Adiciona margem abaixo do texto */
         }
 
         textarea {
@@ -42,9 +45,14 @@
             }
         }
 
-        #pathToGo {
+        #header {
             text-align: center;
-            margin-top: 240px;
+            margin-bottom: 215px;
+        }
+
+        #pathToGo {
+        
+            text-align: center;
             display: block;
         }
 
@@ -97,20 +105,40 @@
             font-size: 14px;
             display: block;
         }
+
+        #newNoteButton {
+            padding: 8px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #A9A9A9;
+            color: #fff;
+            border: none;
+            margin-top: 10px;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #newNoteButton:hover {
+            background-color: #363636;
+        }
     </style>
 </head>
 
 <body>
+    <div id="header">
+        <h1>MEDNOTE</h1>
+    </div>
+
     <div id="pathToGo">
         <form onsubmit="createChatRoom(event)">
-            <p class="prefix">cosmic.com/</p>
-            <input type="search" name="path" id="search" autocapitalize="none" autocorrect="off" placeholder="your-secret-chat">
+            <p class="prefix">mednote.io/</p>
+            <input type="search" name="path" id="search" autocapitalize="none" autocorrect="off" placeholder="doctor-profile">
             <button type="submit" class="disabled">Go!</button>
         </form>
     </div>
 
     <div id="chatRoom">
         <h1>Send Your Cosmic Messages</h1>
+        <button id="newNoteButton" onclick="createNewNote()">New Patient Note</button>
         <textarea id="content" placeholder="Type your text here..."></textarea>
     </div>
 
@@ -187,6 +215,14 @@
         function getChatRoomId() {
             // Obtenha o identificador da sala a partir do fragmento de URL
             return window.location.hash.substr(1);
+        }
+
+        function createNewNote() {
+            // Limpa o conteúdo atual
+            document.getElementById('content').value = '';
+
+            // Emite um evento para atualizar o conteúdo (pode ser personalizado conforme a necessidade)
+            socket.emit('updateContent', '');
         }
     </script>
 </body>
