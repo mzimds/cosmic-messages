@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mednote.io - Chat Room</title>
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 10px;
+            background-color: #ffffff;
+            color: #000000;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #chatRoom {
+            display: none;
+        }
+
+        #newNoteButton {
+            padding: 8px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #A9A9A9;
+            color: #fff;
+            border: none;
+            margin-top: 10px;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #newNoteButton:hover {
+            background-color: #363636;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="chatRoom">
+        <h1>Send Your Cosmic Messages</h1>
+        <button id="newNoteButton" onclick="createNewNote()">New Patient Note</button>
+        <textarea id="content" placeholder="Type your text here..."></textarea>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        // Seu script específico para a página do chat, se necessário
+        // Pode conter funções específicas ou ajustes necessários para a página do chat
+    </script>
+</body>
+
+</html>
