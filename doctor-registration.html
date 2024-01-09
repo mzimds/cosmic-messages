@@ -10,30 +10,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: -30px 0 0; /* Ajuste a margem superior para controlar o espaço */
+            margin: 0;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 100vh;
             background-color: #ffffff;
             color: #000000;
-            transition: background-color 0.5s, color 0.5s;
             padding: 20px;
             flex-direction: column;
         }
 
         h1 {
-            margin: 0;
-            font-size: 30px; /* Ajuste o tamanho do texto conforme necessário */
+            font-size: 30px;
         }
 
         form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             width: 100%;
             max-width: 400px;
             margin-top: 10px;
+            text-align: center;
         }
 
         input {
@@ -62,9 +58,7 @@
         }
 
         .additional-text {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            text-align: center;
+            margin: 5px 0;
             font-size: 14px;
             color: #000000;
             cursor: pointer;
@@ -73,26 +67,6 @@
 
         .additional-text:hover {
             color: #757575;
-        }
-
-        .additional-text + .additional-text {
-            margin-top: -5px;
-        }
-
-        /* Adicione uma consulta de mídia para ajustar o espaçamento em dispositivos móveis */
-        @media (max-width: 600px) {
-            body {
-                margin: -15px 0 0; /* Reduza ainda mais o espaço superior em dispositivos móveis */
-            }
-
-            h1 {
-                font-size: 20px; /* Ajuste o tamanho do texto para dispositivos móveis */
-            }
-
-            .additional-text {
-                margin-top: 3px;
-                margin-bottom: 3px;
-            }
         }
     </style>
 </head>
@@ -119,44 +93,15 @@
     <script>
         function validateForm(event) {
             event.preventDefault();
-
-            // Obter os valores dos campos
-            const doctorProfile = document.getElementById('doctorProfile').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-
-            // Validar o perfil do médico
-            const profileRegex = /^[a-z0-9]+$/;
-            if (!profileRegex.test(doctorProfile)) {
-                alert("Please use lowercase letters and no spaces for the profile.");
-                return;
-            }
-
-            // Validar o formato de e-mail
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            // Validar a senha e a confirmação de senha
-            if (password !== confirmPassword) {
-                alert("Passwords do not match.");
-                return;
-            }
-
-            // Se todas as validações passarem, você pode prosseguir com o envio do formulário ou outras ações necessárias
+            // Lógica de validação aqui
             alert("Form submitted successfully!");
         }
 
         function redirectToLogin() {
-            // Adicione a lógica para redirecionar para a página de login
             alert("Redirecting to login page.");
         }
 
         function redirectToForgotPassword() {
-            // Adicione a lógica para redirecionar para a página de redefinição de senha
             alert("Redirecting to forgot password page.");
         }
     </script>
