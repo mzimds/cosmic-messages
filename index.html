@@ -10,34 +10,32 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 10px; /* Alterei de 150px para 10px para melhorar o ajuste em dispositivos móveis */
+            margin: 10px;
             background-color: #ffffff;
             color: #000000;
             transition: background-color 0.5s, color 0.5s;
         }
 
         #header {
-        text-align: center;
-        margin-bottom: 10px;
-        margin-top: 160px; /* Adicionado para afastar o conteúdo da parte superior */
+            text-align: center;
+            margin-bottom: 10px;
+            margin-top: 160px;
         }
 
-
         #header h1 {
-        color: #333;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
-        margin-bottom: 5px;
-        margin-top: 10px; /* Adicionado para ajustar a posição vertical */
+            color: #333;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 10px;
         }
 
         #simplifyText {
-        text-align: center;
-        font-size: 14px;
-        margin-bottom: 30px;
-        margin-top: 10px; /* Adicionado para ajustar a posição vertical */
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 30px;
+            margin-top: 10px;
         }
-
 
         #pathToGo {
             text-align: center;
@@ -99,25 +97,6 @@
         #Join p {
             margin: 0;
         }
-
-        #chatRoom {
-            display: none;
-        }
-
-        #newNoteButton {
-            padding: 8px 14px;
-            font-size: 14px;
-            cursor: pointer;
-            background-color: #A9A9A9;
-            color: #fff;
-            border: none;
-            margin-top: 10px;
-            transition: background-color 0.5s, color 0.5s;
-        }
-
-        #newNoteButton:hover {
-            background-color: #363636;
-        }
     </style>
 </head>
 
@@ -135,12 +114,6 @@
             <input type="search" name="path" id="search" autocapitalize="none" autocorrect="off" placeholder="doctor-profile">
             <button type="submit" class="disabled">Go!</button>
         </form>
-    </div>
-
-    <div id="chatRoom">
-        <h1>Send Your Cosmic Messages</h1>
-        <button id="newNoteButton" onclick="createNewNote()">New Patient Note</button>
-        <textarea id="content" placeholder="Type your text here..."></textarea>
     </div>
 
     <div id="Join" onclick="redirectToRegistration()" style="cursor: pointer;">
@@ -181,8 +154,8 @@
                 chatRoom.style.display = 'block';
                 Join.style.display = 'none';
 
-                // Adicione esta linha para atualizar o histórico do navegador
-                window.location.hash = `#${path}`;
+                // Não há mais a linha para atualizar o histórico do navegador
+                // window.location.hash = `#${path}`;
                 // Adicione esta linha para atualizar o conteúdo da sala, se existir
                 const storedContent = localStorage.getItem(getChatRoomId());
                 if (storedContent) {
