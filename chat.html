@@ -17,39 +17,159 @@
         }
 
         #chatRoom {
-            display: none;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
         }
 
-        #newNoteButton {
-            padding: 8px 14px;
-            font-size: 14px;
-            cursor: pointer;
+        .addListButton {
+            width: 200px; /* Largura ajustada aqui */
+            padding: 12px;
             background-color: #A9A9A9;
             color: #fff;
             border: none;
-            margin-top: 10px;
+            border-radius: 4px;
+            cursor: pointer;
             transition: background-color 0.5s, color 0.5s;
         }
 
-        #newNoteButton:hover {
+        .addListButton:hover {
             background-color: #363636;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            margin-top: 10px;
+        }
+
+        .listContainer {
+            width: calc(33.33% - 10px);
+            background-color: #f4f5f7;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            text-align: left;
+            box-sizing: border-box;
+            margin-right: 10px; /* Separação horizontal entre os contêineres na versão desktop */
+        }
+
+        .listTitleContainer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .listTitle {
+            width: calc(100% - 30px); /* Largura ajustada aqui */
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .listOptions button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: -20px; /* Ajuste para cima aqui */
+        }
+
+        .listOptions button:hover {
+            color: #757575;
+        }
+
+        .addCardButton {
+            width: 100%;
+            padding: 8px;
+            background-color: transparent; /* Removido o fundo do botão */
+            color: #A9A9A9; /* Cor ajustada */
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: color 0.5s;
+        }
+
+        .addCardButton:hover {
+            color: #363636;
+        }
+
+        @media screen and (max-width: 768px) {
+            .listContainer {
+                width: 100%;
+                margin-right: 0; /* Remover a separação horizontal na versão mobile */
+                margin-bottom: 10px; /* Adicionar a separação vertical na versão mobile */
+            }
         }
     </style>
 </head>
 
 <body>
     <div id="chatRoom">
-        <h1>Send Your Cosmic Messages</h1>
-        <button id="newNoteButton" onclick="createNewNote()">New Patient Note</button>
-        <textarea id="content" placeholder="Type your text here..."></textarea>
+        <button class="addListButton" onclick="addAnotherList()">+ Add Another List</button>
+        <div class="container" id="container"></div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
         const socket = io();
 
-        // Seu script específico para a página do chat, se necessário
-        // Pode conter funções específicas ou ajustes necessários para a página do chat
+        function addAnotherList() {
+            const container = document.getElementById('container');
+            const listContainer = document.createElement('div');
+            listContainer.className = 'listContainer';
+            listContainer.innerHTML = `
+                <div class="listTitleContainer">
+                    <input type="text" class="listTitle" placeholder="List Title">
+                    <div class="listOptions">
+                        <button onclick="deleteList(this)">...</button>
+                    </div>
+                </div>
+                <div class="addCardButton" onclick="addCard()">+ Add a Card</div>
+            `;
+
+            container.appendChild(listContainer);
+        }
+
+        function addCard() {
+            // Lógica para adicionar um cartão ao clicar no botão dentro do contêiner
+            alert('Add a card functionality will be implemented here.');
+        }
+
+        function deleteList(element) {
+            // Lógica para excluir a lista
+            const confirmation = confirm('Are you sure you want to delete this list?');
+            if (confirmation) {
+                const container = element.closest('.container');
+                const listContainer = element.closest('.listContainer');
+                container.removeChild(listContainer);
+            }
+        }
+
+        // Restaurar as listas após recarregar a página
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('container');
+            const savedLists = localStorage.getItem('savedLists');
+            if (savedLists) {
+                container.innerHTML = savedLists;
+            }
+        });
+
+        // Salvar as listas no armazenamento local ao adicionar/remover
+        function saveLists() {
+            const container = document.getElementById('container');
+            const savedLists = container.innerHTML;
+            localStorage.setItem('savedLists', savedLists);
+        }
+
+        // Adicionar evento para salvar ao fechar a página ou mudar para outra página
+        window.addEventListener('beforeunload', function () {
+            saveLists();
+        });
     </script>
 </body>
 
