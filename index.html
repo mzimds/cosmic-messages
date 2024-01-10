@@ -32,7 +32,7 @@
 
         #simplifyText {
             text-align: center;
-            font-size: 14px;
+            font-size: 16px;
             margin-bottom: 30px;
             margin-top: 10px;
         }
@@ -104,12 +104,12 @@
     <div id="header">
         <h1>MEDNOTE</h1>
         <div id="simplifyText">
-            <p>Simplify Medical Collaboration with Easy Note Sharing.</p>
+            <p>Simplify Medical Collaboration.</p>
         </div>
     </div>
 
     <div id="pathToGo">
-        <form onsubmit="createChatRoom(event)">
+        <form onsubmit="redirectToChat(event)">
             <p class="prefix">mednote.io/</p>
             <input type="search" name="path" id="search" autocapitalize="none" autocorrect="off" placeholder="doctor-profile">
             <button type="submit" class="disabled">Go!</button>
@@ -124,86 +124,46 @@
     <script>
         const socket = io();
 
-        // Recuperar conteúdo do LocalStorage ao carregar a página
-        const storedContent = localStorage.getItem(getChatRoomId());
-        if (storedContent) {
-            document.getElementById('content').value = storedContent;
-        }
+        // Limpar o conteúdo do campo 'doctor-profile' ao voltar para a página principal
+        window.addEventListener('DOMContentLoaded', function () {
+            const pathInput = document.getElementById("search");
 
-        document.getElementById("content").addEventListener("input", function () {
-            const contentTextarea = document.getElementById("content");
-            const content = contentTextarea.value;
-
-            // Armazenar conteúdo no LocalStorage
-            localStorage.setItem(getChatRoomId(), content);
-
-            socket.emit('updateContent', content);
+            // Recuperar conteúdo do LocalStorage ao carregar a página
+            const storedPath = localStorage.getItem('storedPath');
+            if (storedPath) {
+                pathInput.value = storedPath;
+            }
         });
 
-        function createChatRoom(event) {
+        // Limpar o campo 'doctor-profile' ao voltar usando o botão do navegador
+        window.addEventListener('pageshow', function (event) {
+            const pathInput = document.getElementById("search");
+
+            // Verificar se a hash é vazia e limpar o campo 'doctor-profile' se necessário
+            if (!window.location.hash || window.location.hash === '#') {
+                pathInput.value = '';
+            }
+        });
+
+        function redirectToChat(event) {
             event.preventDefault();
 
             const pathInput = document.getElementById("search");
             const path = pathInput.value.trim();
-            const pathToGo = document.getElementById('pathToGo');
-            const chatRoom = document.getElementById('chatRoom');
-            const Join = document.getElementById('Join');
 
             if (path !== "") {
-                pathToGo.style.display = 'none';
-                chatRoom.style.display = 'block';
-                Join.style.display = 'none';
+                // Armazenar o caminho no LocalStorage
+                localStorage.setItem('storedPath', path);
 
-                // Não há mais a linha para atualizar o histórico do navegador
-                // window.location.hash = `#${path}`;
-                // Adicione esta linha para atualizar o conteúdo da sala, se existir
-                const storedContent = localStorage.getItem(getChatRoomId());
-                if (storedContent) {
-                    document.getElementById('content').value = storedContent;
-                }
+                // Redireciona para a página do chat com o caminho específico
+                window.location.href = `chat.html#${path}`;
             }
-        }
-
-        // Adicione o código para manipular o evento hashchange
-        window.addEventListener('hashchange', function () {
-            const pathToGo = document.getElementById('pathToGo');
-            const chatRoom = document.getElementById('chatRoom');
-            const Join = document.getElementById('Join');
-
-            if (window.location.hash === `#${getChatRoomId()}`) {
-                // Se a hash for a sala de chat, exiba a sala de chat
-                pathToGo.style.display = 'none';
-                chatRoom.style.display = 'block';
-                Join.style.display = 'none';
-            } else {
-                // Se não, exiba o caminho para ir
-                pathToGo.style.display = 'block';
-                chatRoom.style.display = 'none';
-                Join.style.display = 'block';
-            }
-        });
-
-        // Adicione esta linha para garantir que o hash seja manipulado ao carregar a página
-        window.dispatchEvent(new Event('hashchange'));
-
-        function getChatRoomId() {
-            // Obtenha o identificador da sala a partir do fragmento de URL
-            return window.location.hash.substr(1);
-        }
-
-        function createNewNote() {
-            // Limpa o conteúdo atual
-            document.getElementById('content').value = '';
-
-            // Emite um evento para atualizar o conteúdo (pode ser personalizado conforme a necessidade)
-            socket.emit('updateContent', '');
         }
 
         function redirectToRegistration() {
             // Redireciona para a página doctor-registration.html
             window.location.href = 'doctor-registration.html';
         }
-
     </script>
 </body>
 
