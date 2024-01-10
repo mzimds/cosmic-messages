@@ -23,7 +23,7 @@
         }
 
         .addListButton {
-            width: 200px; /* Largura ajustada aqui */
+            width: 200px;
             padding: 12px;
             background-color: #A9A9A9;
             color: #fff;
@@ -52,57 +52,122 @@
             border-radius: 4px;
             text-align: left;
             box-sizing: border-box;
-            margin-right: 10px; /* Separação horizontal entre os contêineres na versão desktop */
+            margin-right: 10px;
+            position: relative;
         }
 
         .listTitleContainer {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: space-between;
             margin-bottom: 10px;
         }
 
         .listTitle {
-            width: calc(100% - 30px); /* Largura ajustada aqui */
-            padding: 5px;
-            border: 1px solid #ddd;
+            width: calc(100% - 20px);
+            padding: 8px;
+            border: 2px solid #363636;
             border-radius: 4px;
             box-sizing: border-box;
+            font-weight: bold;
+            background-color: #fff;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza o conteúdo horizontalmente */
         }
 
-        .listOptions button {
-            background-color: transparent;
-            border: none;
+        .listTitle > div {
+            width: calc(100% - 16px); /* Ajuste para compensar o padding */
+            font-weight: bold;
+            text-align: center;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: -20px; /* Ajuste para cima aqui */
-        }
-
-        .listOptions button:hover {
-            color: #757575;
+            outline: none;
         }
 
         .addCardButton {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 8px;
-            background-color: transparent; /* Removido o fundo do botão */
-            color: #A9A9A9; /* Cor ajustada */
+            background-color: transparent;
+            color: #A9A9A9;
             border: none;
             border-radius: 4px;
             cursor: pointer;
             margin-top: 10px;
             transition: color 0.5s;
+            text-align: left;
         }
 
         .addCardButton:hover {
             color: #363636;
         }
 
+        .card {
+            background-color: #ffffff;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cardTitleContainer {
+            width: calc(100% - 20px);
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+
+        .cardTitle {
+            padding: 8px;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #fff;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Centraliza o conteúdo horizontalmente */
+            cursor: pointer;
+            font-weight: bold;
+            outline: none;
+        }
+
+        .cardTitle:hover {
+            background-color: #f0f0f0;
+        }
+
+        .cardContent {
+            max-height: 100%;
+            overflow: hidden;
+            transition: max-height 0.3s;
+        }
+
+        .card textarea {
+            width: calc(100% - 20px);
+            border: none;
+            resize: none;
+            font-size: 14px;
+            line-height: 1.5;
+            padding: 5px;
+            background-color: transparent;
+            margin: 5px 10px;
+        }
+
+        .card.open .cardContent {
+            max-height: none;
+        }
+
         @media screen and (max-width: 768px) {
             .listContainer {
                 width: 100%;
-                margin-right: 0; /* Remover a separação horizontal na versão mobile */
-                margin-bottom: 10px; /* Adicionar a separação vertical na versão mobile */
+                margin-right: 0;
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -114,62 +179,103 @@
         <div class="container" id="container"></div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script>
-        const socket = io();
+        const container = document.getElementById('container');
+
+        // Limpar conteúdo antigo ao carregar a página
+        const urlParams = new URLSearchParams(window.location.search);
+        const savedLists = urlParams.get('lists');
+
+        if (savedLists) {
+            container.innerHTML = atob(savedLists);
+        }
 
         function addAnotherList() {
-            const container = document.getElementById('container');
             const listContainer = document.createElement('div');
             listContainer.className = 'listContainer';
-            listContainer.innerHTML = `
-                <div class="listTitleContainer">
-                    <input type="text" class="listTitle" placeholder="List Title">
-                    <div class="listOptions">
-                        <button onclick="deleteList(this)">...</button>
-                    </div>
-                </div>
-                <div class="addCardButton" onclick="addCard()">+ Add a Card</div>
-            `;
+
+            const listTitleContainer = document.createElement('div');
+            listTitleContainer.className = 'listTitleContainer';
+
+            const inputTitle = document.createElement('input');
+            inputTitle.type = 'text';
+            inputTitle.className = 'listTitle';
+            inputTitle.placeholder = 'List Title';
+            inputTitle.addEventListener('input', function () {
+                saveLists();
+            });
+
+            listTitleContainer.appendChild(inputTitle);
+
+            const addCardButton = document.createElement('div');
+            addCardButton.className = 'addCardButton';
+            addCardButton.textContent = '+ Add a Card';
+            addCardButton.onclick = function () {
+                addCard(listContainer);
+            };
+
+            listContainer.appendChild(listTitleContainer);
+            listContainer.appendChild(addCardButton);
 
             container.appendChild(listContainer);
-        }
 
-        function addCard() {
-            // Lógica para adicionar um cartão ao clicar no botão dentro do contêiner
-            alert('Add a card functionality will be implemented here.');
-        }
-
-        function deleteList(element) {
-            // Lógica para excluir a lista
-            const confirmation = confirm('Are you sure you want to delete this list?');
-            if (confirmation) {
-                const container = element.closest('.container');
-                const listContainer = element.closest('.listContainer');
-                container.removeChild(listContainer);
-            }
-        }
-
-        // Restaurar as listas após recarregar a página
-        document.addEventListener('DOMContentLoaded', function () {
-            const container = document.getElementById('container');
-            const savedLists = localStorage.getItem('savedLists');
-            if (savedLists) {
-                container.innerHTML = savedLists;
-            }
-        });
-
-        // Salvar as listas no armazenamento local ao adicionar/remover
-        function saveLists() {
-            const container = document.getElementById('container');
-            const savedLists = container.innerHTML;
-            localStorage.setItem('savedLists', savedLists);
-        }
-
-        // Adicionar evento para salvar ao fechar a página ou mudar para outra página
-        window.addEventListener('beforeunload', function () {
             saveLists();
-        });
+        }
+
+        function addCard(listContainer) {
+            const card = document.createElement('div');
+            card.className = 'card';
+
+            const cardTitleContainer = document.createElement('div');
+            cardTitleContainer.className = 'cardTitleContainer';
+
+            const cardTitle = document.createElement('div');
+            cardTitle.className = 'cardTitle';
+            cardTitle.textContent = '';
+            cardTitle.contentEditable = true;
+            cardTitle.addEventListener('focus', function () {
+                if (cardTitle.textContent === 'Card Title') {
+                    cardTitle.textContent = '';
+                }
+            });
+            cardTitle.addEventListener('blur', function () {
+                if (cardTitle.textContent === '') {
+                    cardTitle.textContent = 'Card Title';
+                }
+                saveLists();
+            });
+
+            cardTitleContainer.appendChild(cardTitle);
+
+            card.appendChild(cardTitleContainer);
+
+            const cardContent = document.createElement('div');
+            cardContent.className = 'cardContent';
+
+            const textarea = document.createElement('textarea');
+            textarea.placeholder = 'Add a note...';
+            textarea.addEventListener('input', function () {
+                saveLists();
+            });
+
+            cardContent.appendChild(textarea);
+            card.appendChild(cardContent);
+
+            card.addEventListener('click', function () {
+                card.classList.toggle('open');
+            });
+
+            listContainer.insertBefore(card, listContainer.lastChild);
+
+            saveLists();
+        }
+
+        function saveLists() {
+            const savedLists = container.innerHTML;
+            const url = new URL(window.location.href);
+            url.searchParams.set('lists', btoa(savedLists));
+            window.history.replaceState({}, '', url);
+        }
     </script>
 </body>
 
