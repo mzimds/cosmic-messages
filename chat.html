@@ -65,9 +65,9 @@
         }
 
         .listTitle {
-            width: calc(100% - 20px);
+            width: calc(100% - 2px);
             padding: 8px;
-            border: 2px solid #363636;
+            border: 1px solid #ddd;
             border-radius: 4px;
             box-sizing: border-box;
             font-weight: bold;
@@ -77,6 +77,10 @@
             text-align: center;
             display: flex;
             align-items: center;
+        }
+
+        .listTitle:hover {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
         .listTitle > input {
@@ -147,15 +151,12 @@
             text-overflow: ellipsis;
         }
 
-        .cardTitle > input {
-            width: calc(100% - 16px);
+        .cardTitle > div {
+            width: calc(100% - 16px); /* Ajuste para compensar o padding */
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             outline: none;
-            border: none;
-            background: none;
-            color: #595959;
         }
 
         .cardTitle:hover {
