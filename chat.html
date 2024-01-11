@@ -71,19 +71,23 @@
             border-radius: 4px;
             box-sizing: border-box;
             font-weight: bold;
+            font-size: 15px;
             background-color: #fff;
             margin-bottom: 5px;
+            text-align: center;
             display: flex;
             align-items: center;
-            justify-content: center; /* Centraliza o conteúdo horizontalmente */
         }
 
-        .listTitle > div {
-            width: calc(100% - 16px); /* Ajuste para compensar o padding */
+        .listTitle > input {
+            width: calc(100% - 16px);
             font-weight: bold;
             text-align: center;
             cursor: pointer;
             outline: none;
+            border: none;
+            background: none;
+            color: #595959;
         }
 
         .addCardButton {
@@ -128,18 +132,34 @@
             padding: 8px;
             border-radius: 4px;
             box-sizing: border-box;
-            background-color: #fff;
+            background-color: #f0f0f0;
             margin-bottom: 5px;
             display: flex;
             align-items: center;
-            justify-content: center; /* Centraliza o conteúdo horizontalmente */
+            justify-content: center;
             cursor: pointer;
             font-weight: bold;
+            font-size: 13px;
             outline: none;
+            color: #595959;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .cardTitle > input {
+            width: calc(100% - 16px);
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            background: none;
+            color: #595959;
         }
 
         .cardTitle:hover {
-            background-color: #f0f0f0;
+            background-color: #cecece;
         }
 
         .cardContent {
@@ -231,19 +251,31 @@
 
             const cardTitle = document.createElement('div');
             cardTitle.className = 'cardTitle';
-            cardTitle.textContent = '';
+            cardTitle.textContent = 'Card Title'; // Texto sugerido
             cardTitle.contentEditable = true;
-            cardTitle.addEventListener('focus', function () {
+
+            function handleCardTitleFocus() {
                 if (cardTitle.textContent === 'Card Title') {
                     cardTitle.textContent = '';
                 }
-            });
-            cardTitle.addEventListener('blur', function () {
+            }
+
+            function handleCardTitleInput() {
+                if (cardTitle.textContent === 'Card Title' || cardTitle.textContent === '') {
+                    saveLists();
+                }
+            }
+
+            function handleCardTitleBlur() {
                 if (cardTitle.textContent === '') {
                     cardTitle.textContent = 'Card Title';
+                    saveLists();
                 }
-                saveLists();
-            });
+            }
+
+            cardTitle.addEventListener('focus', handleCardTitleFocus);
+            cardTitle.addEventListener('input', handleCardTitleInput);
+            cardTitle.addEventListener('blur', handleCardTitleBlur);
 
             cardTitleContainer.appendChild(cardTitle);
 
