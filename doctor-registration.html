@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mednote.io - Doctor Sign-Up</title>
+    <title>Mednote.io</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <style>
@@ -58,7 +58,7 @@
         }
 
         .additional-text {
-            margin: 5px 0;
+            margin: 3px 0 0 0; /* Ajuste a margem superior conforme necessário */
             font-size: 14px;
             color: #000000;
             cursor: pointer;
@@ -72,7 +72,7 @@
 </head>
 
 <body>
-    <h1>Doctor Sign-Up</h1>
+    <h1>Doctor Sign-up</h1>
     <form id="registrationForm" onsubmit="validateForm(event)">
         <input type="text" id="doctorProfile" name="doctorProfile" placeholder="Create a doctor profile" required pattern="[a-z0-9]+" title="Please use lowercase letters and no spaces for the profile.">
         <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
