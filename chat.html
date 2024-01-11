@@ -4,312 +4,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mednote.io - Chat Room</title>
+    <title>Mednote.io</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 10px;
+            margin: 0;
+            padding: 0;
             background-color: #ffffff;
             color: #000000;
             transition: background-color 0.5s, color 0.5s;
         }
 
-        #chatRoom {
-            max-width: 800px;
-            margin: 20px auto;
+        #header {
             text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
         }
 
-        .addListButton {
-            width: 200px;
-            padding: 12px;
-            background-color: #A9A9A9;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.5s, color 0.5s;
-        }
-
-        .addListButton:hover {
-            background-color: #363636;
-        }
-
-        .container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            margin-top: 10px;
-        }
-
-        .listContainer {
-            width: calc(33.33% - 10px);
-            background-color: #f4f5f7;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            text-align: left;
-            box-sizing: border-box;
-            margin-right: 10px;
-            position: relative;
-        }
-
-        .listTitleContainer {
+        #container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
+            text-align: center;
+            margin: 20px; /* Adicionado para dar algum espaço entre o header e o container */
         }
 
-        .listTitle {
-            width: calc(100% - 2px);
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-weight: bold;
-            font-size: 15px;
-            background-color: #fff;
-            margin-bottom: 5px;
-            text-align: center;
+        #search-bar {
             display: flex;
             align-items: center;
+            flex-wrap: wrap; /* Adicionado para lidar com a quebra de linha no mobile */
+            margin-bottom: 15px; /* Espaço entre a barra de pesquisa e o texto " +Create a List" */
+            max-width: 600px; /* Largura intermediária para desktop */
+            width: 100%;
         }
 
-        .listTitle:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .listTitle > input {
-            width: calc(100% - 16px);
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
+        #search-input {
+            flex-grow: 1;
+            min-width: 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
             outline: none;
-            border: none;
-            background: none;
-            color: #595959;
         }
 
-        .addCardButton {
-            width: calc(100% - 20px);
-            padding: 8px;
-            background-color: transparent;
-            color: #A9A9A9;
-            border: none;
-            border-radius: 4px;
+        #search-button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 0 5px 5px 0;
+            background-color: #A9A9A9;
+            color: white;
             cursor: pointer;
-            margin-top: 10px;
-            transition: color 0.5s;
-            text-align: left;
         }
 
-        .addCardButton:hover {
+        #search-button:hover {
+            background-color: #363636;
+        }
+
+        #create-list-text {
+            align-self: center; /* Centraliza */
+            margin-top: 0px; /* Ajustado para estar mais para cima no mobile e desktop */
+            padding: 10px;
+            color: #A9A9A9;
+            cursor: pointer;
+        }
+
+        #create-list-text:hover {
             color: #363636;
         }
 
-        .card {
-            background-color: #ffffff;
+        #list-buttons {
+            margin: 20px;
+        }
+
+        .list-button {
+            margin-right: 10px;
             padding: 10px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
             cursor: pointer;
-            transition: all 0.3s;
         }
 
-        .card:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .cardTitleContainer {
-            width: calc(100% - 20px);
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-
-        .cardTitle {
-            padding: 8px;
-            border-radius: 4px;
-            box-sizing: border-box;
-            background-color: #f0f0f0;
-            margin-bottom: 5px;
+        #cards-container {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 13px;
-            outline: none;
-            color: #595959;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            flex-wrap: wrap;
+            margin: 20px;
         }
 
-        .cardTitle > div {
-            width: calc(100% - 16px); /* Ajuste para compensar o padding */
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
-            outline: none;
+        .card {
+            flex: 0 0 30%;
+            margin: 10px;
+            padding: 20px;
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
-        .cardTitle:hover {
-            background-color: #cecece;
-        }
-
-        .cardContent {
-            max-height: 100%;
-            overflow: hidden;
-            transition: max-height 0.3s;
-        }
-
-        .card textarea {
-            width: calc(100% - 20px);
-            border: none;
-            resize: none;
-            font-size: 14px;
-            line-height: 1.5;
-            padding: 5px;
-            background-color: transparent;
-            margin: 5px 10px;
-        }
-
-        .card.open .cardContent {
-            max-height: none;
-        }
-
-        @media screen and (max-width: 768px) {
-            .listContainer {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 10px;
+        /* Regra de mídia para telas menores */
+        @media only screen and (max-width: 600px) {
+            #search-bar {
+                max-width: 90%; /* Largura total para telas menores */
             }
         }
     </style>
 </head>
 
 <body>
-    <div id="chatRoom">
-        <button class="addListButton" onclick="addAnotherList()">+ Add Another List</button>
-        <div class="container" id="container"></div>
+
+    <div id="header">
+        <h1>MEDNOTE</h1>
+    </div>
+
+    <div id="container">
+
+        <div id="search-bar">
+            <input type="text" id="search-input" placeholder="Search by title...">
+            <button id="search-button">Search</button>
+        </div>
+
+        <div id="create-list-text" onclick="redirectToCreateList()">+ Create a List</div>
+
+        <div id="list-buttons">
+            <!-- List buttons will be dynamically added here -->
+        </div>
+
+        <div id="cards-container">
+            <!-- Cards will be dynamically added here -->
+        </div>
+
     </div>
 
     <script>
-        const container = document.getElementById('container');
-
-        // Limpar conteúdo antigo ao carregar a página
-        const urlParams = new URLSearchParams(window.location.search);
-        const savedLists = urlParams.get('lists');
-
-        if (savedLists) {
-            container.innerHTML = atob(savedLists);
-        }
-
-        function addAnotherList() {
-            const listContainer = document.createElement('div');
-            listContainer.className = 'listContainer';
-
-            const listTitleContainer = document.createElement('div');
-            listTitleContainer.className = 'listTitleContainer';
-
-            const inputTitle = document.createElement('input');
-            inputTitle.type = 'text';
-            inputTitle.className = 'listTitle';
-            inputTitle.placeholder = 'List Title';
-            inputTitle.addEventListener('input', function () {
-                saveLists();
-            });
-
-            listTitleContainer.appendChild(inputTitle);
-
-            const addCardButton = document.createElement('div');
-            addCardButton.className = 'addCardButton';
-            addCardButton.textContent = '+ Add a Card';
-            addCardButton.onclick = function () {
-                addCard(listContainer);
-            };
-
-            listContainer.appendChild(listTitleContainer);
-            listContainer.appendChild(addCardButton);
-
-            container.appendChild(listContainer);
-
-            saveLists();
-        }
-
-        function addCard(listContainer) {
-            const card = document.createElement('div');
-            card.className = 'card';
-
-            const cardTitleContainer = document.createElement('div');
-            cardTitleContainer.className = 'cardTitleContainer';
-
-            const cardTitle = document.createElement('div');
-            cardTitle.className = 'cardTitle';
-            cardTitle.textContent = 'Card Title'; // Texto sugerido
-            cardTitle.contentEditable = true;
-
-            function handleCardTitleFocus() {
-                if (cardTitle.textContent === 'Card Title') {
-                    cardTitle.textContent = '';
-                }
-            }
-
-            function handleCardTitleInput() {
-                if (cardTitle.textContent === 'Card Title' || cardTitle.textContent === '') {
-                    saveLists();
-                }
-            }
-
-            function handleCardTitleBlur() {
-                if (cardTitle.textContent === '') {
-                    cardTitle.textContent = 'Card Title';
-                    saveLists();
-                }
-            }
-
-            cardTitle.addEventListener('focus', handleCardTitleFocus);
-            cardTitle.addEventListener('input', handleCardTitleInput);
-            cardTitle.addEventListener('blur', handleCardTitleBlur);
-
-            cardTitleContainer.appendChild(cardTitle);
-
-            card.appendChild(cardTitleContainer);
-
-            const cardContent = document.createElement('div');
-            cardContent.className = 'cardContent';
-
-            const textarea = document.createElement('textarea');
-            textarea.placeholder = 'Add a note...';
-            textarea.addEventListener('input', function () {
-                saveLists();
-            });
-
-            cardContent.appendChild(textarea);
-            card.appendChild(cardContent);
-
-            card.addEventListener('click', function () {
-                card.classList.toggle('open');
-            });
-
-            listContainer.insertBefore(card, listContainer.lastChild);
-
-            saveLists();
-        }
-
-        function saveLists() {
-            const savedLists = container.innerHTML;
-            const url = new URL(window.location.href);
-            url.searchParams.set('lists', btoa(savedLists));
-            window.history.replaceState({}, '', url);
+        function redirectToCreateList() {
+            // Adicione aqui a lógica de redirecionamento para a criação de uma lista
+            console.log('Redirecting to Create a List...');
         }
     </script>
-</body>
 
+</body>
 </html>
