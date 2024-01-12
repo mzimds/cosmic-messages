@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mednote.io</title>
+    <title>Mednote.io/note</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <style>
@@ -29,15 +29,15 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
-            margin: 20px; /* Adicionado para dar algum espaço entre o header e o container */
+            margin: 20px;
         }
 
         #search-bar {
             display: flex;
             align-items: center;
-            flex-wrap: wrap; /* Adicionado para lidar com a quebra de linha no mobile */
-            margin-bottom: 15px; /* Espaço entre a barra de pesquisa e o texto " +Create a List" */
-            max-width: 600px; /* Largura intermediária para desktop */
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            max-width: 600px;
             width: 100%;
         }
 
@@ -64,8 +64,8 @@
         }
 
         #create-list-text {
-            align-self: center; /* Centraliza */
-            margin-top: 0px; /* Ajustado para estar mais para cima no mobile e desktop */
+            align-self: center;
+            margin-top: 5px;
             padding: 10px;
             color: #A9A9A9;
             cursor: pointer;
@@ -75,18 +75,119 @@
             color: #363636;
         }
 
+        #create-list-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+
+        #create-list-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #create-list-box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            height: 150px;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+        }
+
+        #close-modal {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            cursor: pointer;
+            font-size: 20px;
+            color: #888;
+        }
+
+        #close-modal:hover {
+            color: #555;
+        }
+
+        #list-input {
+            margin-top: 15px;
+        }
+
+        #list-title {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #create-list-button {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #A9A9A9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #create-list-button:hover {
+            background-color: #363636;
+        }
+
         #list-buttons {
-            margin: 20px;
+            display: flex;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            white-space: nowrap;
         }
 
         .list-button {
             margin-right: 10px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #4CAF50;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            background-color: #62717a;
             color: white;
             cursor: pointer;
+            width: 300px;
+            height: 150px;
+            display: inline-block;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .list-button:first-child {
+            margin-left: 10px;
+        }
+
+        .list-button:not(:first-child)::before {
+            content: '>';
+            position: absolute;
+            top: 10px;
+            left: -10px;
+            font-size: 20px;
+        }
+
+        .list-button:not(:first-child) {
+            border-radius: 15px;
         }
 
         #cards-container {
@@ -96,18 +197,20 @@
         }
 
         .card {
-            flex: 0 0 30%;
+            flex: 0 0 300px;
+            height: 150px;
             margin: 10px;
             padding: 20px;
             background-color: #f3f3f3;
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: left;
         }
 
-        /* Regra de mídia para telas menores */
         @media only screen and (max-width: 600px) {
             #search-bar {
-                max-width: 95%; /* Largura total para telas menores */
+                max-width: 95%;
             }
         }
     </style>
@@ -126,7 +229,7 @@
             <button id="search-button">Search</button>
         </div>
 
-        <div id="create-list-text" onclick="redirectToCreateList()">+ Create a List</div>
+        <div id="create-list-text" onclick="openCreateListModal()">+ Add a List</div>
 
         <div id="list-buttons">
             <!-- List buttons will be dynamically added here -->
@@ -138,12 +241,87 @@
 
     </div>
 
+    <!-- Create List Modal -->
+    <div id="create-list-modal">
+        <div id="create-list-overlay" onclick="closeCreateListModal()"></div>
+        <div id="create-list-box">
+            <span id="close-modal" onclick="closeCreateListModal()">&times;</span>
+            <div id="list-input">
+                <input type="text" id="list-title" placeholder="Enter title..." maxlength="22">
+            </div>
+            <button id="create-list-button" onclick="createList(event)">Create List</button>
+        </div>
+    </div>
+
     <script>
-        function redirectToCreateList() {
-            // Adicione aqui a lógica de redirecionamento para a criação de uma lista
-            console.log('Redirecting to Create a List...');
+        let lists = [];
+
+        function openCreateListModal() {
+            document.getElementById('create-list-modal').style.display = 'flex';
+        }
+
+        function closeCreateListModal() {
+            document.getElementById('create-list-modal').style.display = 'none';
+        }
+
+        function createList(event) {
+            let listTitle = document.getElementById('list-title').value.trim();
+
+            if (listTitle === '') {
+                alert('Please enter a title for the list.');
+                return;
+            }
+
+            let newList = {
+                title: listTitle,
+                cards: []
+            };
+
+            lists.push(newList);
+
+            updateInterface();
+
+            closeCreateListModal();
+        }
+
+        function updateInterface() {
+            document.getElementById('list-buttons').innerHTML = "";
+            document.getElementById('cards-container').innerHTML = "";
+
+            lists.forEach((list, index) => {
+                let listButton = document.createElement('div');
+                listButton.classList.add('list-button');
+                listButton.innerText = list.title;
+                listButton.onclick = () => showCards(index);
+                document.getElementById('list-buttons').appendChild(listButton);
+            });
+        }
+
+        function showCards(listIndex) {
+            document.getElementById('cards-container').innerHTML = "";
+            let selectedList = lists[listIndex];
+            selectedList.cards.forEach((card, cardIndex) => {
+                let cardElement = document.createElement('div');
+                cardElement.classList.add('card');
+                cardElement.innerText = card;
+                cardElement.onclick = () => editCard(listIndex, cardIndex);
+                document.getElementById('cards-container').appendChild(cardElement);
+            });
+        }
+
+        function editCard(listIndex, cardIndex) {
+            let currentText = lists[listIndex].cards[cardIndex];
+            let newText = prompt('Edit Card:', currentText);
+
+            if (newText === null || newText.trim() === '') {
+                return;
+            }
+
+            lists[listIndex].cards[cardIndex] = newText;
+            updateInterface();
         }
     </script>
 
 </body>
+
 </html>
