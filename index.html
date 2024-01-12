@@ -112,7 +112,7 @@
         #login-link {
             text-decoration: none; /* Remover o sublinhado */
             cursor: pointer;
-            color: #000000; /* Cor preta para manter o mesmo padrão de design */
+            color: #000000; /* Cor preta para o texto antes de 'Login' */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -120,8 +120,13 @@
             margin-top: 14px; /* Espaçamento superior */
         }
 
-        #login-link:hover {
-            color: #757575; /* Mudança de cor ao passar o mouse para manter a consistência */
+        #login-link .blue-text {
+            color: #007bff; /* Cor azul para a palavra 'Login' */
+            transition: color 0.3s; /* Adição de transição de cor */
+        }
+
+        #login-link:hover .blue-text {
+            color: #0056b3; /* Mudança de cor ao passar o mouse para manter a consistência */
         }
     </style>
 </head>
@@ -147,7 +152,7 @@
     </div>
 
     <a id="login-link" onclick="redirectToLogin()">
-        Already have an account? Login here.
+        Already have an account?&nbsp;<span class="blue-text">Log in</span>.
     </a>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
