@@ -19,7 +19,9 @@
             color: #000000;
             padding: 20px;
             flex-direction: column;
-            margin-top: -10px; /* Ajuste o valor conforme necessário para subir mais ainda */
+            margin-top: 0px; /* Ajuste o valor conforme necessário para subir mais ainda */
+            overflow-y: auto; /* Adicione esta linha para permitir a rolagem vertical apenas quando necessário */
+
         }
 
         h1 {
@@ -29,7 +31,7 @@
         form {
             width: 100%;
             max-width: 400px;
-            margin-top: 10px;
+            margin-top: -3px;
             text-align: center;
         }
 
@@ -69,6 +71,12 @@
         .additional-text:hover {
             color: #757575;
         }
+
+        .forgot-password {
+            margin-top: -13px; /* Ajuste a margem superior conforme necessário */
+            margin-bottom: -5px; /* Ajuste a margem inferior conforme necessário */
+        }
+
     </style>
 </head>
 
@@ -86,8 +94,8 @@
     <div class="additional-text" onclick="redirectToLogin()">
         <p>Already have an account? Log in.</p>
     </div>
-
-    <div class="additional-text" onclick="redirectToForgotPassword()">
+    
+    <div class="additional-text forgot-password" onclick="redirectToForgotPassword()">
         <p>Forgot your password? Reset it.</p>
     </div>
 
