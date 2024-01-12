@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mednote.io/Login</title>
+    <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
+    <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #ffffff;
+            color: #000000;
+            padding: 20px;
+            flex-direction: column;
+        }
+
+        h1 {
+            font-size: 35px;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #A9A9A9;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        button:hover {
+            background-color: #363636;
+        }
+
+        .additional-text {
+            margin: 3px 0 0 0; /* Ajuste a margem superior conforme necessário */
+            font-size: 14px;
+            color: #000000;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .additional-text:hover {
+            color: #757575;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Doctor Login</h1>
+    <form id="loginForm" onsubmit="validateForm(event)">
+        <input type="email" id="email" name="email" placeholder="Your email address" required>
+        <input type="password" id="password" name="password" placeholder="Your password" required>
+        <button type="submit">Login</button>
+    </form>
+
+    <div class="additional-text" onclick="redirectToForgotPassword()">
+        <p>Forgot your password? Reset it.</p>
+    </div>
+    
+    <script>
+        function validateForm(event) {
+            event.preventDefault();
+            // Lógica de validação aqui
+            alert("Form submitted successfully!");
+        }
+
+        function redirectToRegistration() {
+            alert("Redirecting to registration page.");
+        }
+
+        function redirectToForgotPassword() {
+            alert("Redirecting to forgot password page.");
+        }
+    </script>
+</body>
+
+</html>
