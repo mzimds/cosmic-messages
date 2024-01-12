@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mednote.io/home</title>
+    <title>Mednote.io</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
@@ -84,49 +84,40 @@
             background-color: #363636;
         }
 
-        #Join {
+        #Join, #login-link {
             text-align: center;
-            color: #000000;
-            font-size: 13px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: color 0.3s;
             margin-top: 10px; /* Espaçamento superior */
         }
 
-        #Join:hover p {
+        #Join p, #login-link p {
+            margin: 0;
+            font-size: 13px;
+            display: inline-block;
+        }
+
+        #Join .black-text, #login-link .black-text {
+            color: #000000;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #Join:hover .black-text, #login-link:hover .black-text {
             color: #757575;
         }
 
-        #Join p {
-            margin: 0;
-            margin-left: 5px; /* Espaçamento entre o texto e o ícone */
-        }
-
-        #Join i {
-            font-size: 12px; /* Tamanho do ícone ajustado */
-        }
-
-        #login-link {
-            text-decoration: none; /* Remover o sublinhado */
+        #Join .blue-text, #login-link .blue-text {
+            color: #007bff;
+            transition: color 0.3s;
             cursor: pointer;
-            color: #000000; /* Cor preta para o texto antes de 'Login' */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12.5px;
-            margin-top: 14px; /* Espaçamento superior */
+            text-align: center;
+            display: inline-block;
         }
 
-        #login-link .blue-text {
-            color: #007bff; /* Cor azul para a palavra 'Login' */
-            transition: color 0.3s; /* Adição de transição de cor */
-        }
-
-        #login-link:hover .blue-text {
-            color: #0056b3; /* Mudança de cor ao passar o mouse para manter a consistência */
+        #Join:hover .blue-text, #login-link:hover .blue-text {
+            color: #0056b3;
         }
     </style>
 </head>
@@ -148,12 +139,12 @@
     </div>
 
     <div id="Join" onclick="redirectToRegistration()" style="cursor: pointer;">
-        <p><i class="fas fa-user-md"></i> Join to collaborate and share patient notes.</p>
-    </div>
+        <p><span class="black-text">New here?</span> <span class="blue-text">Create your profile.</span></p>
+    </div>    
 
-    <a id="login-link" onclick="redirectToLogin()">
-        Already have an account?&nbsp;<span class="blue-text">Log in</span>.
-    </a>
+    <div id="login-link" onclick="redirectToLogin()">
+        <p><span class="black-text">Already have an account? <span class="blue-text">Log in.</span></p>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
