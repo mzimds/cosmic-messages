@@ -19,10 +19,12 @@
             color: #000000;
             padding: 20px;
             flex-direction: column;
+            margin-top: -120px; /* Ajuste o valor conforme necessário para subir mais ainda */
         }
 
         h1 {
             font-size: 35px;
+            margin-bottom: 10px; /* Espaçamento inferior ajustado */
         }
 
         form {
@@ -82,7 +84,7 @@
     <div class="additional-text" onclick="redirectToForgotPassword()">
         <p>Forgot your password? Reset it.</p>
     </div>
-    
+
     <script>
         function validateForm(event) {
             event.preventDefault();
@@ -90,12 +92,12 @@
             alert("Form submitted successfully!");
         }
 
-        function redirectToRegistration() {
-            alert("Redirecting to registration page.");
-        }
-
         function redirectToForgotPassword() {
             alert("Redirecting to forgot password page.");
+        }
+
+        function redirectToRegistration() {
+            alert("Redirecting to registration page.");
         }
     </script>
 </body>
