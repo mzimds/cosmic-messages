@@ -7,6 +7,7 @@
     <title>Mednote.io</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -32,7 +33,7 @@
 
         #simplifyText {
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 30px;
             margin-top: 10px;
         }
@@ -87,9 +88,12 @@
             text-align: center;
             color: #000000;
             font-size: 13px;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
             transition: color 0.3s;
+            margin-top: 10px; /* Espaçamento superior */
         }
 
         #Join:hover p {
@@ -98,15 +102,26 @@
 
         #Join p {
             margin: 0;
+            margin-left: 5px; /* Espaçamento entre o texto e o ícone */
         }
 
-        /* Regra de mídia para telas menores */
-        @media only screen and (max-width: 600px) {
-            #pathToGo {
-                max-width: 80%; /* Largura total para telas menores */
-                margin-left: auto;
-                margin-right: auto;
-            }
+        #Join i {
+            font-size: 12px; /* Tamanho do ícone ajustado */
+        }
+
+        #login-link {
+            text-decoration: none; /* Remover o sublinhado */
+            cursor: pointer;
+            color: #000000; /* Cor preta para manter o mesmo padrão de design */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12.5px;
+            margin-top: 10px; /* Espaçamento superior */
+        }
+
+        #login-link:hover {
+            color: #757575; /* Mudança de cor ao passar o mouse para manter a consistência */
         }
     </style>
 </head>
@@ -128,10 +143,15 @@
     </div>
 
     <div id="Join" onclick="redirectToRegistration()" style="cursor: pointer;">
-        <p>Join to collaborate and share patient notes.</p>
+        <p><i class="fas fa-user-md"></i> Join to collaborate and share patient notes.</p>
     </div>
 
+    <a id="login-link" onclick="redirectToLogin()">
+        Already have an account? Login here.
+    </a>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.1.2/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
     <script>
         const socket = io();
 
@@ -174,6 +194,11 @@
         function redirectToRegistration() {
             // Redireciona para a página doctor-registration.html
             window.location.href = 'doctor-registration.html';
+        }
+
+        function redirectToLogin() {
+            // Redireciona para a página de login
+            window.location.href = 'login.html';
         }
     </script>
 </body>
