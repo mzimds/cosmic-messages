@@ -19,9 +19,7 @@
             color: #000000;
             padding: 20px;
             flex-direction: column;
-            margin-top: 0px; /* Ajuste o valor conforme necessário para subir mais ainda */
-            overflow-y: auto; /* Adicione esta linha para permitir a rolagem vertical apenas quando necessário */
-
+            margin-top: 0;
         }
 
         h1 {
@@ -61,7 +59,7 @@
         }
 
         .additional-text {
-            margin: 3px 0 0 0; /* Ajuste a margem superior conforme necessário */
+            margin: 3px 0 0 0;
             font-size: 14px;
             color: #000000;
             cursor: pointer;
@@ -73,10 +71,20 @@
         }
 
         .forgot-password {
-            margin-top: -13px; /* Ajuste a margem superior conforme necessário */
-            margin-bottom: -5px; /* Ajuste a margem inferior conforme necessário */
+            margin-top: -13px;
+            margin-bottom: -5px;
         }
 
+        /* Media query para dispositivos com largura máxima de 600 pixels (exemplo, ajuste conforme necessário) */
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 10px; /* Ajuste o padding conforme necessário para dispositivos móveis */
+            }
+
+            form {
+                margin-top: 0; /* Remove o espaçamento superior no formulário */
+            }
+        }
     </style>
 </head>
 
