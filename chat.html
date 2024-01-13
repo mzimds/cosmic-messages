@@ -155,19 +155,20 @@
         #list-buttons-container {
             overflow: hidden;
             width: 100%;
-            flex-wrap: wrap; 
+            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
             margin-bottom: 10px;
-            justify-content: center; 
+            justify-content: center; /* Centraliza os botões horizontalmente */
             margin-left: 10px;
             margin-right: -10px;
+
         }
 
         #list-buttons {
             display: flex;
             padding: 10px;
-            flex-wrap: wrap; 
-            justify-content: center; 
-            align-items: center; 
+            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
+            justify-content: center; /* Alinha os botões à esquerda */
+            align-items: center; /* Centraliza verticalmente os botões */
         }
 
         .list-button {
@@ -180,7 +181,7 @@
             background-color: #62717a;
             color: white;
             cursor: pointer;
-            width: calc(25% - 20px); 
+            width: calc(25% - 20px); /* Garante até 4 botões por linha, considerando a margem */
             max-width: 300px;
             height: 150px;
             display: flex;
@@ -195,7 +196,7 @@
 
         @media only screen and (max-width: 600px) {
             .list-button {
-                width: calc(100% - 20px); 
+                width: calc(100% - 20px); /* Em dispositivos móveis, ajusta para 2 botões por linha */
             }
         }
 
@@ -268,6 +269,15 @@
     <script>
         let lists = [];
 
+        // Carregar dados salvos do armazenamento local ao iniciar a página
+        window.onload = function () {
+            let savedLists = localStorage.getItem('mednote_lists');
+            if (savedLists) {
+                lists = JSON.parse(savedLists);
+                updateInterface();
+            }
+        };
+
         function openCreateListModal() {
             document.getElementById('list-title').value = '';
             document.getElementById('create-list-modal').style.display = 'flex';
@@ -296,6 +306,9 @@
 
             document.getElementById('list-title').value = '';
 
+            // Salvar dados no armazenamento local
+            saveListsToLocalStorage();
+            
             // Fechar o modal após um pequeno atraso
             setTimeout(() => {
                 closeCreateListModal();
@@ -337,6 +350,13 @@
 
             lists[listIndex].cards[cardIndex] = newText;
             updateInterface();
+
+            // Salvar dados no armazenamento local
+            saveListsToLocalStorage();
+        }
+
+        function saveListsToLocalStorage() {
+            localStorage.setItem('mednote_lists', JSON.stringify(lists));
         }
 
         function updateGlider() {
