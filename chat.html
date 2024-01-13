@@ -323,7 +323,10 @@
                 let listButton = document.createElement('div');
                 listButton.classList.add('list-button');
                 listButton.innerText = list.title;
-                listButton.onclick = () => showCards(index);
+
+                // Adicionar evento de clique para editar o título
+                listButton.onclick = () => editListTitle(index);
+
                 listButtonsContainer.appendChild(listButton);
             });
         }
@@ -355,6 +358,21 @@
             saveListsToLocalStorage();
         }
 
+        function editListTitle(index) {
+            let currentTitle = lists[index].title;
+            let newTitle = prompt('Edit List Title:', currentTitle);
+
+            if (newTitle === null || newTitle.trim() === '') {
+                return;
+            }
+
+            lists[index].title = newTitle;
+            updateInterface();
+
+            // Salvar dados no armazenamento local
+            saveListsToLocalStorage();
+        }
+
         function saveListsToLocalStorage() {
             localStorage.setItem('mednote_lists', JSON.stringify(lists));
         }
@@ -373,7 +391,6 @@
             });
         }
     </script>
-
 </body>
 
 </html>
