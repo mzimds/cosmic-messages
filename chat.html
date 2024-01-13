@@ -8,6 +8,8 @@
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/glider.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -83,6 +85,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            margin-left: 5px;
             justify-content: center;
             align-items: center;
             z-index: 1;
@@ -160,7 +163,6 @@
             justify-content: center; /* Centraliza os botões horizontalmente */
             margin-left: 10px;
             margin-right: -10px;
-
         }
 
         #list-buttons {
@@ -169,6 +171,10 @@
             flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
             justify-content: center; /* Alinha os botões à esquerda */
             align-items: center; /* Centraliza verticalmente os botões */
+        }
+
+        .icon {
+            font-size: 10px; /* Defina o tamanho desejado para os ícones */
         }
 
         .list-button {
@@ -192,6 +198,39 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             overflow: hidden;
             transition: margin-left 0.5s;
+            position: relative;
+        }
+
+        .list-options {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .list-button:hover .list-options {
+            display: block;
+        }
+
+        .list-options-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            padding: 5px;
+            z-index: 3;
+        }
+
+        .list-options-menu-item {
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .list-options-menu-item:hover {
+            background-color: #eee;
         }
 
         @media only screen and (max-width: 600px) {
@@ -308,7 +347,7 @@
 
             // Salvar dados no armazenamento local
             saveListsToLocalStorage();
-            
+
             // Fechar o modal após um pequeno atraso
             setTimeout(() => {
                 closeCreateListModal();
@@ -324,23 +363,46 @@
                 listButton.classList.add('list-button');
                 listButton.innerText = list.title;
 
-                // Adicionar evento de clique para editar o título
-                listButton.onclick = () => editListTitle(index);
+                // Adicionar opções do menu
+                let listOptions = document.createElement('div');
+                listOptions.classList.add('list-options'); // Adiciona a classe list-options
+
+                // Adiciona ícones do FontAwesome com a classe 'icon'
+                listOptions.innerHTML = `
+                    <i class="fas fa-paper-plane icon" onclick="iconClick('plane', ${index})"></i>
+                    <i class="fas fa-pencil-alt icon" onclick="iconClick('pencil', ${index})"></i>
+                    <i class="fas fa-trash-alt icon" onclick="iconClick('trash', ${index})"></i>
+                `;
+
+                listButton.appendChild(listOptions);
 
                 listButtonsContainer.appendChild(listButton);
             });
         }
 
-        function showCards(listIndex) {
-            document.getElementById('cards-container').innerHTML = "";
-            let selectedList = lists[listIndex];
-            selectedList.cards.forEach((card, cardIndex) => {
-                let cardElement = document.createElement('div');
-                cardElement.classList.add('card');
-                cardElement.innerText = card;
-                cardElement.onclick = () => editCard(listIndex, cardIndex);
-                document.getElementById('cards-container').appendChild(cardElement);
-            });
+        function iconClick(icon, index) {
+            // Lida com os cliques nos ícones
+            switch (icon) {
+                case 'plane':
+                    // Lógica para ícone de envio
+                    break;
+                case 'pencil':
+                    // Lógica para ícone de lápis
+                    break;
+                case 'trash':
+                    // Lógica para ícone de lixeira
+                    deleteList(index);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+
+        function showListOptions(event, index) {
+            const listOptionsMenu = document.getElementById(`list-options-${index}`);
+            listOptionsMenu.style.display = (listOptionsMenu.style.display === 'none' || listOptionsMenu.style.display === '') ? 'flex' : 'none';
+            event.stopPropagation();
         }
 
         function editCard(listIndex, cardIndex) {
@@ -358,19 +420,18 @@
             saveListsToLocalStorage();
         }
 
-        function editListTitle(index) {
-            let currentTitle = lists[index].title;
-            let newTitle = prompt('Edit List Title:', currentTitle);
-
-            if (newTitle === null || newTitle.trim() === '') {
-                return;
-            }
-
             lists[index].title = newTitle;
             updateInterface();
 
             // Salvar dados no armazenamento local
-            saveListsToLocalStorage();
+            saveListsToLocalStorage()
+
+        function deleteList(index) {
+            if (confirm("Are you sure you want to delete this list?")) {
+                lists.splice(index, 1);
+                updateInterface();
+                saveListsToLocalStorage();
+            }
         }
 
         function saveListsToLocalStorage() {
