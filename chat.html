@@ -95,7 +95,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1.
+            z-index: 1;
         }
 
         #create-list-box {
@@ -155,9 +155,9 @@
         #list-buttons-container {
             overflow: hidden;
             width: 100%;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
             margin-bottom: 10px;
-            justify-content: center;
+            justify-content: center; /* Centraliza os botões horizontalmente */
             margin-left: 10px;
             margin-right: -10px;
 
@@ -166,9 +166,9 @@
         #list-buttons {
             display: flex;
             padding: 10px;
-            flex-wrap: wrap;
-            justify-content: center;
-            align-items: center;
+            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
+            justify-content: center; /* Alinha os botões à esquerda */
+            align-items: center; /* Centraliza verticalmente os botões */
         }
 
         .list-button {
@@ -181,7 +181,7 @@
             background-color: #62717a;
             color: white;
             cursor: pointer;
-            width: calc(25% - 20px);
+            width: calc(25% - 20px); /* Garante até 4 botões por linha, considerando a margem */
             max-width: 300px;
             height: 150px;
             display: flex;
@@ -194,30 +194,9 @@
             transition: margin-left 0.5s;
         }
 
-        .list-title-text {
-            flex-grow: 1;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            margin-right: 10px;
-        }
-
-        .list-button:hover {
-            background-color: #444;
-        }
-
-        .list-title-text:hover {
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .list-button:hover .list-title-text {
-            text-decoration: none;
-        }
-
         @media only screen and (max-width: 600px) {
             .list-button {
-                width: calc(100% - 20px);
+                width: calc(100% - 20px); /* Em dispositivos móveis, ajusta para 2 botões por linha */
             }
         }
 
@@ -237,10 +216,6 @@
             border-radius: 10px;
             cursor: pointer;
             text-align: left;
-        }
-
-        .card:hover {
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         @media only screen and (min-width: 600px) {
@@ -266,7 +241,7 @@
 
         <div id="create-list-text" onclick="openCreateListModal()">+ Add a List</div>
 
-        <div id="list-buttons-container" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <div id="list-buttons-container">
             <div id="list-buttons">
                 <!-- List buttons will be dynamically added here -->
             </div>
@@ -333,7 +308,7 @@
 
             // Salvar dados no armazenamento local
             saveListsToLocalStorage();
-
+            
             // Fechar o modal após um pequeno atraso
             setTimeout(() => {
                 closeCreateListModal();
@@ -347,24 +322,10 @@
             lists.forEach((list, index) => {
                 let listButton = document.createElement('div');
                 listButton.classList.add('list-button');
-                listButton.setAttribute('draggable', true);
-                listButton.setAttribute('ondragstart', 'drag(event)');
-                listButton.setAttribute('data-index', index);
+                listButton.innerText = list.title;
 
                 // Adicionar evento de clique para editar o título
-                listButton.onclick = (event) => {
-                    if (event.target.classList.contains('list-title-text')) {
-                        editListTitle(index);
-                    }
-                };
-
-                // Conteúdo do botão
-                let titleText = document.createElement('div');
-                titleText.classList.add('list-title-text');
-                titleText.innerText = list.title;
-
-                // Adicionar texto ao botão
-                listButton.appendChild(titleText);
+                listButton.onclick = () => editListTitle(index);
 
                 listButtonsContainer.appendChild(listButton);
             });
@@ -414,31 +375,6 @@
 
         function saveListsToLocalStorage() {
             localStorage.setItem('mednote_lists', JSON.stringify(lists));
-        }
-
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.getAttribute('data-index'));
-        }
-
-        function drop(ev) {
-            ev.preventDefault();
-            let fromIndex = ev.dataTransfer.getData("text");
-            let toIndex = ev.target.getAttribute('data-index');
-            if (fromIndex !== toIndex) {
-                // Reorganizar a ordem da lista
-                const [removed] = lists.splice(fromIndex, 1);
-                lists.splice(toIndex, 0, removed);
-
-                // Atualizar a interface
-                updateInterface();
-
-                // Salvar dados no armazenamento local
-                saveListsToLocalStorage();
-            }
         }
 
         function updateGlider() {
