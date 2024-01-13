@@ -140,7 +140,7 @@
 
     <div id="Join" onclick="redirectToRegistration()" style="cursor: pointer;">
         <p><span class="black-text">New here?</span> <span class="blue-text">Create your profile.</span></p>
-    </div>    
+    </div>
 
     <div id="login-link" onclick="redirectToLogin()">
         <p><span class="black-text">Already have an account? <span class="blue-text">Log in.</span></p>
@@ -151,22 +151,16 @@
     <script>
         const socket = io();
 
-        // Limpar o conteúdo do campo 'doctor-profile' ao voltar para a página principal
         window.addEventListener('DOMContentLoaded', function () {
             const pathInput = document.getElementById("search");
-
-            // Recuperar conteúdo do LocalStorage ao carregar a página
             const storedPath = localStorage.getItem('storedPath');
             if (storedPath) {
                 pathInput.value = storedPath;
             }
         });
 
-        // Limpar o campo 'doctor-profile' ao voltar usando o botão do navegador
         window.addEventListener('pageshow', function (event) {
             const pathInput = document.getElementById("search");
-
-            // Verificar se a hash é vazia e limpar o campo 'doctor-profile' se necessário
             if (!window.location.hash || window.location.hash === '#') {
                 pathInput.value = '';
             }
@@ -179,21 +173,20 @@
             const path = pathInput.value.trim();
 
             if (path !== "") {
-                // Armazenar o caminho no LocalStorage
                 localStorage.setItem('storedPath', path);
 
-                // Redireciona para a página do chat com o caminho específico
+                const doctorName = "Juliana Calvo"; // Substitua pelo nome real do médico
+                localStorage.setItem('doctorName', doctorName);
+
                 window.location.href = `chat.html#${path}`;
             }
         }
 
         function redirectToRegistration() {
-            // Redireciona para a página doctor-registration.html
             window.location.href = 'doctor-registration.html';
         }
 
         function redirectToLogin() {
-            // Redireciona para a página de login
             window.location.href = 'login.html';
         }
     </script>
