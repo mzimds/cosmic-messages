@@ -155,20 +155,19 @@
         #list-buttons-container {
             overflow: hidden;
             width: 100%;
-            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
+            flex-wrap: wrap; 
             margin-bottom: 10px;
-            justify-content: center; /* Centraliza os botões horizontalmente */
+            justify-content: center; 
             margin-left: 10px;
             margin-right: -10px;
-
         }
 
         #list-buttons {
             display: flex;
             padding: 10px;
-            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
-            justify-content: center; /* Alinha os botões à esquerda */
-            align-items: center; /* Centraliza verticalmente os botões */
+            flex-wrap: wrap; 
+            justify-content: center; 
+            align-items: center; 
         }
 
         .list-button {
@@ -181,7 +180,7 @@
             background-color: #62717a;
             color: white;
             cursor: pointer;
-            width: calc(25% - 20px); /* Garante até 4 botões por linha, considerando a margem */
+            width: calc(25% - 20px); 
             max-width: 300px;
             height: 150px;
             display: flex;
@@ -196,7 +195,7 @@
 
         @media only screen and (max-width: 600px) {
             .list-button {
-                width: calc(100% - 20px); /* Em dispositivos móveis, ajusta para 1 botões por linha */
+                width: calc(100% - 20px); 
             }
         }
 
@@ -265,7 +264,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/g"></script>
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/glider.min.js"></script>
     <script>
         let lists = [];
 
@@ -314,8 +313,6 @@
                 listButton.onclick = () => showCards(index);
                 listButtonsContainer.appendChild(listButton);
             });
-
-            updateGlider();
         }
 
         function showCards(listIndex) {
