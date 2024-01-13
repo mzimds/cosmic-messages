@@ -155,13 +155,20 @@
         #list-buttons-container {
             overflow: hidden;
             width: 100%;
+            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
             margin-bottom: 10px;
+            justify-content: center; /* Centraliza os botões horizontalmente */
+            margin-left: 10px;
+            margin-right: -10px;
+
         }
 
         #list-buttons {
             display: flex;
-            padding: 10px; /* Adiciona algum espaço à esquerda para que o primeiro botão não comece no limite da tela */
-            transition: transform 0.5s;
+            padding: 10px;
+            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
+            justify-content: center; /* Alinha os botões à esquerda */
+            align-items: center; /* Centraliza verticalmente os botões */
         }
 
         .list-button {
@@ -174,7 +181,8 @@
             background-color: #62717a;
             color: white;
             cursor: pointer;
-            width: 300px;
+            width: calc(25% - 20px); /* Garante até 4 botões por linha, considerando a margem */
+            max-width: 300px;
             height: 150px;
             display: flex;
             align-items: stretch;
@@ -186,8 +194,10 @@
             transition: margin-left 0.5s;
         }
 
-        .list-button:first-child {
-            margin-left: 10px;
+        @media only screen and (max-width: 600px) {
+            .list-button {
+                width: calc(50% - 20px); /* Em dispositivos móveis, ajusta para 2 botões por linha */
+            }
         }
 
         #cards-container {
@@ -251,7 +261,7 @@
             <div id="list-input">
                 <input type="text" id="list-title" placeholder="Enter title..." maxlength="22">
             </div>
-            <button id="create-list-button" onclick="createList()">Create List</button>
+            <button id="create-list-button" onclick="createList(); closeCreateListModal();">Create List</button>
         </div>
     </div>
 
@@ -260,6 +270,7 @@
         let lists = [];
 
         function openCreateListModal() {
+            document.getElementById('list-title').value = '';
             document.getElementById('create-list-modal').style.display = 'flex';
         }
 
@@ -284,11 +295,12 @@
 
             updateInterface();
 
-            // Remover a caixa do modal da tela
-            document.getElementById('create-list-box').style.display = 'none';
-
-            // Limpar o valor do campo de entrada ao criar a lista
             document.getElementById('list-title').value = '';
+
+            // Fechar o modal após um pequeno atraso
+            setTimeout(() => {
+                closeCreateListModal();
+            }, 100);
         }
 
         function updateInterface() {
