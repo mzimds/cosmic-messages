@@ -7,6 +7,7 @@
     <title>Mednote.io/note</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/glider.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -65,7 +66,7 @@
 
         #create-list-text {
             align-self: center;
-            margin-top: 5px;
+            margin-top: 0px;
             padding: 10px;
             color: #A9A9A9;
             cursor: pointer;
@@ -151,43 +152,42 @@
             background-color: #363636;
         }
 
+        #list-buttons-container {
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
         #list-buttons {
             display: flex;
-            overflow-x: auto;
-            margin-bottom: 10px;
-            white-space: nowrap;
+            padding: 10px; /* Adiciona algum espaço à esquerda para que o primeiro botão não comece no limite da tela */
+            transition: transform 0.5s;
         }
 
         .list-button {
+            font-weight: bold;
             margin-right: 10px;
+            margin-bottom: 10px;
             padding: 10px;
             border: none;
             border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             background-color: #62717a;
             color: white;
             cursor: pointer;
             width: 300px;
             height: 150px;
-            display: inline-block;
+            display: flex;
+            align-items: stretch;
             text-align: left;
             box-sizing: border-box;
+            position: relative;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            transition: margin-left 0.5s;
         }
 
         .list-button:first-child {
             margin-left: 10px;
-        }
-
-        .list-button:not(:first-child)::before {
-            content: '>';
-            position: absolute;
-            top: 10px;
-            left: -10px;
-            font-size: 20px;
-        }
-
-        .list-button:not(:first-child) {
-            border-radius: 15px;
         }
 
         #cards-container {
@@ -197,7 +197,7 @@
         }
 
         .card {
-            flex: 0 0 300px;
+            flex: 0 0 calc(50% - 20px);
             height: 150px;
             margin: 10px;
             padding: 20px;
@@ -208,9 +208,9 @@
             text-align: left;
         }
 
-        @media only screen and (max-width: 600px) {
-            #search-bar {
-                max-width: 95%;
+        @media only screen and (min-width: 600px) {
+            .card {
+                flex: 0 0 calc(25% - 20px);
             }
         }
     </style>
@@ -231,8 +231,10 @@
 
         <div id="create-list-text" onclick="openCreateListModal()">+ Add a List</div>
 
-        <div id="list-buttons">
-            <!-- List buttons will be dynamically added here -->
+        <div id="list-buttons-container">
+            <div id="list-buttons">
+                <!-- List buttons will be dynamically added here -->
+            </div>
         </div>
 
         <div id="cards-container">
@@ -249,10 +251,11 @@
             <div id="list-input">
                 <input type="text" id="list-title" placeholder="Enter title..." maxlength="22">
             </div>
-            <button id="create-list-button" onclick="createList(event)">Create List</button>
+            <button id="create-list-button" onclick="createList()">Create List</button>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/g"></script>
     <script>
         let lists = [];
 
@@ -264,7 +267,7 @@
             document.getElementById('create-list-modal').style.display = 'none';
         }
 
-        function createList(event) {
+        function createList() {
             let listTitle = document.getElementById('list-title').value.trim();
 
             if (listTitle === '') {
@@ -281,20 +284,26 @@
 
             updateInterface();
 
-            closeCreateListModal();
+            // Remover a caixa do modal da tela
+            document.getElementById('create-list-box').style.display = 'none';
+
+            // Limpar o valor do campo de entrada ao criar a lista
+            document.getElementById('list-title').value = '';
         }
 
         function updateInterface() {
-            document.getElementById('list-buttons').innerHTML = "";
-            document.getElementById('cards-container').innerHTML = "";
+            const listButtonsContainer = document.getElementById('list-buttons');
+            listButtonsContainer.innerHTML = "";
 
             lists.forEach((list, index) => {
                 let listButton = document.createElement('div');
                 listButton.classList.add('list-button');
                 listButton.innerText = list.title;
                 listButton.onclick = () => showCards(index);
-                document.getElementById('list-buttons').appendChild(listButton);
+                listButtonsContainer.appendChild(listButton);
             });
+
+            updateGlider();
         }
 
         function showCards(listIndex) {
@@ -319,6 +328,20 @@
 
             lists[listIndex].cards[cardIndex] = newText;
             updateInterface();
+        }
+
+        function updateGlider() {
+            const listButtonsContainer = document.getElementById('list-buttons-container');
+            const glider = new Glider(listButtonsContainer, {
+                slidesToShow: 'auto',
+                slidesToScroll: 1,
+                draggable: true,
+                dots: '#dots',
+                arrows: {
+                    prev: '#glider-prev',
+                    next: '#glider-next'
+                }
+            });
         }
     </script>
 
