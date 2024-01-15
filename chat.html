@@ -9,7 +9,7 @@
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/glider.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -74,6 +74,8 @@
             cursor: pointer;
         }
 
+        
+
         #create-list-text:hover {
             color: #363636;
         }
@@ -91,6 +93,16 @@
             z-index: 1;
         }
 
+        #close-modal {
+            position: absolute;
+            top: 5px;
+            right: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #000000;
+        }
+
+
         #create-list-overlay {
             position: fixed;
             top: 0;
@@ -107,42 +119,30 @@
             border-radius: 15px;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
             width: 300px;
-            height: 150px;
             text-align: center;
             box-sizing: border-box;
             position: relative;
             z-index: 2;
-        }
-
-        #close-modal {
-            position: absolute;
-            top: 5px;
-            right: 8px;
-            cursor: pointer;
-            font-size: 20px;
-            color: #888;
-        }
-
-        #close-modal:hover {
-            color: #555;
+            max-width: 80%;
         }
 
         #list-input {
             margin-top: 15px;
+            margin-bottom: 15px;
         }
 
-        #list-title {
+        #list-title,
+        #list-description {
             width: 100%;
             padding: 10px;
+            margin-bottom: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             box-sizing: border-box;
-            font-size: 16px;
-            text-align: center;
+            resize: vertical;
         }
 
         #create-list-button {
-            margin-top: 20px;
             padding: 10px;
             background-color: #A9A9A9;
             color: white;
@@ -155,12 +155,58 @@
             background-color: #363636;
         }
 
+        /* Estilos para os botões na parte inferior */
+        .bottom-buttons {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 15px; /* Adicionei uma margem superior para espaçamento */
+        }
+
+        .center-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cancel-button {
+            padding: 10px;
+            background-color: #A9A9A9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px; /* Adiciona um pequeno espaço entre os botões */
+
+
+        }
+
+        .create-list-button {
+            padding: 10px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px; /* Adiciona um pequeno espaço entre os botões */
+        }
+
+        .cancel-button:hover{
+            background-color: #b5b5b5;
+
+        }
+
+        .create-list-button:hover {
+            background-color: #363636;
+        }
+
+
         #list-buttons-container {
             overflow: hidden;
             width: 100%;
-            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
+            flex-wrap: wrap;
             margin-bottom: 10px;
-            justify-content: center; /* Centraliza os botões horizontalmente */
+            justify-content: center;
             margin-left: 10px;
             margin-right: -10px;
         }
@@ -168,13 +214,16 @@
         #list-buttons {
             display: flex;
             padding: 10px;
-            flex-wrap: wrap; /* Permite que os botões quebrem para a linha seguinte */
-            justify-content: center; /* Alinha os botões à esquerda */
-            align-items: center; /* Centraliza verticalmente os botões */
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
         }
 
-        .icon {
-            font-size: 10px; /* Defina o tamanho desejado para os ícones */
+         /* Adiciona uma classe para estilizar o ícone de cadeado */
+        .lock-icon {
+        font-size: 15px; /* Ajuste o tamanho conforme necessário */
+        color: #333; /* Ajuste a cor conforme necessário */
+        margin-right: 5px; /* Ajuste a margem conforme necessário */
         }
 
         .list-button {
@@ -184,10 +233,10 @@
             padding: 10px;
             border: none;
             border-radius: 15px;
-            background-color: #62717a;
+            background-color: #6a7882;
             color: white;
             cursor: pointer;
-            width: calc(25% - 20px); /* Garante até 4 botões por linha, considerando a margem */
+            width: calc(25% - 20px);
             max-width: 300px;
             height: 150px;
             display: flex;
@@ -206,7 +255,6 @@
             top: 10px;
             right: 10px;
             cursor: pointer;
-            flex-direction: column; /* Adicione esta linha para alinhar os ícones verticalmente */
         }
 
         .list-button:hover .list-options {
@@ -225,6 +273,8 @@
             z-index: 3;
         }
 
+        
+
         .list-options-menu-item {
             padding: 5px;
             cursor: pointer;
@@ -236,7 +286,7 @@
 
         @media only screen and (max-width: 600px) {
             .list-button {
-                width: calc(100% - 20px); /* Em dispositivos móveis, ajusta para 2 botões por linha */
+                width: calc(100% - 20px);
             }
         }
 
@@ -270,7 +320,6 @@
 
     <div id="header">
         <h1>MEDNOTE</h1>
-        <!-- Adição do elemento para exibir o perfil do médico -->
         <div id="doctor-profile">
             <span id="doctor-name"></span>
             <button id="copy-url" onclick="copyURL()" style="background: none; border: none; cursor: pointer;">
@@ -278,10 +327,8 @@
             </button>
         </div>
     </div>
-    
 
     <div id="container">
-
         <div id="search-bar">
             <input type="text" id="search-input" placeholder="Search by title...">
             <button id="search-button">Search</button>
@@ -298,26 +345,62 @@
         <div id="cards-container">
             <!-- Cards will be dynamically added here -->
         </div>
-
     </div>
 
-    <!-- Create List Modal -->
-    <div id="create-list-modal">
-        <div id="create-list-overlay" onclick="closeCreateListModal()"></div>
-        <div id="create-list-box">
-            <span id="close-modal" onclick="closeCreateListModal()">&times;</span>
-            <div id="list-input">
-                <input type="text" id="list-title" placeholder="Enter title..." maxlength="22">
-            </div>
-            <button id="create-list-button" onclick="createList(); closeCreateListModal();">Create List</button>
+    <!-- ... (seu código existente) ... -->
+
+<!-- Create List Modal -->
+<div id="create-list-modal">
+    <div id="create-list-overlay" onclick="closeCreateListModal()"></div>
+    <div id="create-list-box">
+        <!-- Contêiner do ícone de cadeado (topo e centralizado) -->
+        <div id="lock-container" onclick="toggleLockIcon()">
+            <i class="fas fa-lock-open lock-icon" id="lock-icon"></i>
+        </div>
+
+        <!-- Entradas de título e descrição -->
+        <div id="list-input">
+            <input type="text" id="list-title" placeholder="Enter title..." maxlength="22">
+            <textarea id="list-description" placeholder="Add an optional description..."></textarea>
+        </div>
+
+        <!-- Contêiner dos botões na parte inferior -->
+        <div id="button-container" class="bottom-buttons">
+            <!-- Botão "Cancel" -->
+            <button class="cancel-button" onclick="closeCreateListModal()">Cancel</button>
+
+            <!-- Botão "Create List" -->
+            <button class="create-list-button" onclick="createList(); closeCreateListModal()">Create List</button>
         </div>
     </div>
+</div>
+
+
+<!-- ... (seu código existente) ... -->
+
+<script>
+    // ... (seu código existente) ...
+
+    function toggleLockIcon() {
+        var lockIcon = document.getElementById('lock-icon');
+        
+        // Adiciona ou remove a classe 'fa-lock-open' para alternar o ícone
+        if (lockIcon.classList.contains('fa-lock-open')) {
+            lockIcon.classList.remove('fa-lock-open');
+            lockIcon.classList.add('fa-lock');
+        } else {
+            lockIcon.classList.remove('fa-lock');
+            lockIcon.classList.add('fa-lock-open');
+        }
+    }
+</script>
+
+    
 
     <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/glider.min.js"></script>
     <script>
         let lists = [];
 
-        // Carregar dados salvos do armazenamento local ao iniciar a página
         window.onload = function () {
             let savedLists = localStorage.getItem('mednote_lists');
             if (savedLists) {
@@ -337,6 +420,7 @@
 
         function createList() {
             let listTitle = document.getElementById('list-title').value.trim();
+            let listDescription = document.getElementById('list-description').value.trim();
 
             if (listTitle === '') {
                 alert('Please enter a title for the list.');
@@ -345,21 +429,18 @@
 
             let newList = {
                 title: listTitle,
+                description: listDescription,
                 cards: []
             };
 
-            // Inserir nova lista no início do array
-
             lists.unshift(newList);
-
             updateInterface();
 
             document.getElementById('list-title').value = '';
+            document.getElementById('list-description').value = '';
 
-            // Salvar dados no armazenamento local
             saveListsToLocalStorage();
 
-            // Fechar o modal após um pequeno atraso
             setTimeout(() => {
                 closeCreateListModal();
             }, 100);
@@ -374,24 +455,29 @@
                 listButton.classList.add('list-button');
                 listButton.innerText = list.title;
 
-                // Adicionar opções do menu
                 let listOptions = document.createElement('div');
-                listOptions.classList.add('list-options'); // Adiciona a classe list-options
-
-                // Adiciona ícones do FontAwesome com a classe 'icon'
-                listOptions.innerHTML = `
-
-                    <i class="fa fa-angle-down" onclick="iconClick('trash', ${index})"></i>
-                `;
+                listOptions.classList.add('list-options');
+                listOptions.innerHTML = `<i class="fa fa-plus-square" aria-hidden="true"></i>`;
 
                 listButton.appendChild(listOptions);
-
                 listButtonsContainer.appendChild(listButton);
             });
         }
 
+        function toggleVisibilityIcon() {
+        var visibilityToggle = document.getElementById('visibility-toggle');
+        var visibilityIcon = document.querySelector('.switch-label::before');
+
+        visibilityToggle.checked = !visibilityToggle.checked;
+
+        if (visibilityToggle.checked) {
+            visibilityIcon.style.transform = 'translate(-50%, -50%) translateX(16px)';
+        } else {
+            visibilityIcon.style.transform = 'translate(-50%, -50%)';
+        }
+    }
+
         function iconClick(icon, index) {
-            // Lida com os cliques nos ícones
             switch (icon) {
                 case 'plane':
                     // Lógica para ícone de envio
