@@ -35,38 +35,54 @@
             margin: 20px;
         }
 
-        #search-bar {
+        #pathToGo {
+            text-align: center;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #pathToGo form {
             display: flex;
+            justify-content: center;
             align-items: center;
-            flex-wrap: wrap;
-            margin-bottom: 15px;
-            max-width: 600px;
-            width: 100%;
         }
 
-        #search-input {
-            flex-grow: 1;
-            min-width: 0;
-            padding: 10px;
-            border: 1px solid #ccc;
+        #pathToGo .prefix {
+            padding: 8px 15px;
+            display: flex;
+            font-size: 14px;
+            background-color: #dedede;
             border-radius: 5px 0 0 5px;
-            outline: none;
+            margin-right: 0px;
+            color: #000000;
         }
 
-        #search-button {
-            padding: 10px;
+        #pathToGo input {
+            padding: 7px;
+            font-size: 14px;
+            background-color: #f3f3f3;
+            color: #999;
+            transition: background-color 0.5s, color 0.5s;
             border: 1px solid #ccc;
-            border-radius: 0 5px 5px 0;
-            background-color: #A9A9A9;
-            color: white;
-            cursor: pointer;
         }
 
-        #search-button:hover {
+        #pathToGo button {
+            padding: 8px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #A9A9A9;
+            color: #fff;
+            border-radius: 0 5px 5px 0;
+            border: none;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #pathToGo button:hover {
             background-color: #363636;
         }
 
         #create-list-text {
+            text-align: center;
             align-self: center;
             margin-top: 0px;
             padding: 10px;
@@ -77,6 +93,17 @@
         #create-list-text:hover {
             color: #363636;
         }
+
+        #create-list-button {
+            padding: 10px;
+            background-color: #A9A9A9;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px; /* Adicione esta linha para ajustar a margem à esquerda */
+
+        } 
 
         #create-list-modal {
             display: none;
@@ -328,19 +355,16 @@
 
     <div id="header">
         <h1>MEDNOTE</h1>
-        <div id="doctor-profile">
-            <span id="doctor-name"></span>
-            <button id="copy-url" onclick="copyURL()" style="background: none; border: none; cursor: pointer;">
-                <i class="far fa-copy"></i>
-            </button>
         </div>
     </div>
 
-    <div id="container">
-        <div id="search-bar">
-            <input type="text" id="search-input" placeholder="Search by title...">
-            <button id="search-button">Search</button>
-        </div>
+    <div id="pathToGo">
+        <form onsubmit="redirectToChat(event)">
+            <p class="prefix">mednote.io/</p>
+            <input type="search" name="path" id="search" autocapitalize="none" autocorrect="off" placeholder="doctor-profile">
+            <button type="submit" class="disabled">Go!</button>
+        </form>
+    </div>
 
         <div id="create-list-text" onclick="openCreateListModal()">+ Add a List</div>
 
