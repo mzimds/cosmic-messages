@@ -22,15 +22,26 @@
             margin-top: 0;
         }
 
+        #registration-container {
+            width: 100%;
+            max-width: 300px; /* Ajuste a largura máxima conforme necessário */
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adicione a sombra aqui */
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff; /* Adicione uma cor de fundo para destacar a sombra */
+            margin-top: 20px; /* Ajuste o valor conforme necessário para movê-lo mais para baixo */
+            margin-left: auto;  /* Adicione esta linha */
+            margin-right: auto; /* e esta linha para centralizar horizontalmente */
+        }
+
         h1 {
             font-size: 35px;
         }
 
         form {
             width: 100%;
-            max-width: 400px;
-            margin-top: -3px;
-            text-align: center;
+            margin-top: 10px;
         }
 
         input {
@@ -98,22 +109,24 @@
 </head>
 
 <body>
-    <h1>Doctor Sign-up</h1>
-    <form id="registrationForm" onsubmit="validateForm(event)">
-        <input type="text" id="doctorProfile" name="doctorProfile" placeholder="Create a doctor profile" required pattern="[a-z0-9]+" title="Please use lowercase letters and no spaces for the profile.">
-        <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
-        <input type="email" id="email" name="email" placeholder="Your email address" required>
-        <input type="password" id="password" name="password" placeholder="Choose a secure password" required>
-        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
-        <button type="submit">Register</button>
-    </form>
+    <div id="registration-container">
+        <h1>Doctor Sign-up</h1>
+        <form id="registrationForm" onsubmit="validateForm(event)">
+            <input type="text" id="doctorProfile" name="doctorProfile" placeholder="Create a doctor profile" required pattern="[a-z0-9]+" title="Please use lowercase letters and no spaces for the profile.">
+            <input type="text" id="fullName" name="fullName" placeholder="Your full name" required>
+            <input type="email" id="email" name="email" placeholder="Your email address" required>
+            <input type="password" id="password" name="password" placeholder="Choose a secure password" required>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+            <button type="submit">Register</button>
+        </form>
 
-    <div id="loginLink" class="additional-text" onclick="redirectToLogin()">
-        <p>Already have an account?&nbsp;<span class="blue-text">Log in</span>.</p>
-    </div>
-    
-    <div class="additional-text forgot-password" onclick="redirectToForgotPassword()">
-        <p>Forgot your password? Reset it.</p>
+        <div id="loginLink" class="additional-text" onclick="redirectToLogin()">
+            <p>Already have an account?&nbsp;<span class="blue-text">Log in</span>.</p>
+        </div>
+        
+        <div class="additional-text forgot-password" onclick="redirectToForgotPassword()">
+            <p>Forgot your password? Reset it.</p>
+        </div>
     </div>
 
     <script>
@@ -134,7 +147,6 @@
             // Adicione aqui o código de redirecionamento para a página de login.
             window.location.href = 'forgot_password.html';
         }
-
     </script>
 </body>
 
