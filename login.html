@@ -7,6 +7,8 @@
     <title>Mednote.io/Login</title>
     <link rel="shortcut icon" type="image/x-icon" sizes="16x16" href="/assets/favicon.png" media="(prefers-color-scheme: dark)">
     <link rel="shortcut icon" type="image/x-icon" sizes="64x64" href="/assets/favicon.svg" media="(prefers-color-scheme: dark)">
+    <!-- Adicionando a biblioteca Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,6 +24,17 @@
             margin-top: -120px; /* Ajuste o valor conforme necessário para subir mais ainda */
         }
 
+        #login-container {
+            width: 100%;
+            max-width: 300px; /* Ajuste a largura máxima conforme necessário */
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Adicione a sombra aqui */
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff; /* Adicione uma cor de fundo para destacar a sombra */
+            margin-top: 100px; /* Ajuste o valor conforme necessário para movê-lo mais para baixo */
+        }
+
         h1 {
             font-size: 35px;
             margin-bottom: 10px; /* Espaçamento inferior ajustado */
@@ -29,9 +42,7 @@
 
         form {
             width: 100%;
-            max-width: 400px;
             margin-top: 10px;
-            text-align: center;
         }
 
         input {
@@ -74,15 +85,17 @@
 </head>
 
 <body>
-    <h1>Doctor Login</h1>
-    <form id="loginForm" onsubmit="validateForm(event)">
-        <input type="email" id="email" name="email" placeholder="Your email address" required>
-        <input type="password" id="password" name="password" placeholder="Your password" required>
-        <button type="submit">Login</button>
-    </form>
+    <div id="login-container">
+        <h1>Doctor Login</h1>
+        <form id="loginForm" onsubmit="validateForm(event)">
+            <input type="email" id="email" name="email" placeholder="Your email address" required>
+            <input type="password" id="password" name="password" placeholder="Your password" required>
+            <button type="submit">Login</button>
+        </form>
 
-    <div class="additional-text" onclick="redirectToForgotPassword()">
-        <p>Forgot your password? Reset it.</p>
+        <div class="additional-text" onclick="redirectToForgotPassword()">
+            <p>Forgot your password? Reset it.</p>
+        </div>
     </div>
 
     <script>
