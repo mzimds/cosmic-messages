@@ -296,7 +296,7 @@
             text-align: left;
             box-sizing: border-box;
             position: relative;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 0 2.5px rgba(0, 0, 0, 0.5);
             overflow: hidden;
             transition: margin-left 0.5s;
             position: relative;
@@ -498,7 +498,7 @@
             }, 100);
         }
 
-        function updateInterface() {
+            function updateInterface() {
             const listButtonsContainer = document.getElementById('list-buttons');
             listButtonsContainer.innerHTML = "";
 
@@ -511,10 +511,23 @@
                 listOptions.classList.add('list-options');
                 listOptions.innerHTML = `<i class="fa fa-plus-square" aria-hidden="true"></i>`;
 
+                // Adiciona o evento de clique ao elemento da lista criada
+                listButton.addEventListener('click', function() {
+                    redirectToNotes(list.title);
+                });
+
                 listButton.appendChild(listOptions);
                 listButtonsContainer.appendChild(listButton);
             });
         }
+
+                function redirectToNotes(title) {
+            // Construa a URL da página de notas, passando o título da lista como parâmetro
+            const url = `pagina-de-notas.html?title=${encodeURIComponent(title)}`;
+            // Redirecione para a página de notas
+            window.location.href = url;
+        }
+
 
         function toggleVisibilityIcon() {
         var visibilityToggle = document.getElementById('visibility-toggle');
