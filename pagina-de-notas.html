@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #000000;
+            transition: background-color 0.5s, color 0.5s;
+        }
+
+        #container {
+            text-align: center;
+            margin-top: 50px; /* Adicione uma margem superior para centralizar verticalmente */
+        }
+
+        #header {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+            color: rgb(0, 0, 0);
+        }
+
+        #header h1 {
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 10px;
+            /* Adicione transformação para inclinar o texto */
+            transform: perspective(1px) skewY(-5deg);
+            display: inline-block;
+            background-color: #000000;
+            padding: 5px 10px; /* Adicione algum preenchimento para torná-lo visível */
+            margin-left: auto; /* Centraliza horizontalmente */
+            margin-right: auto; /* Centraliza horizontalmente */
+        }
+
+        #list-title {
+            color: #000000;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin-bottom: 10px;
+            margin-top: -30px; /* Adicione uma margem negativa para subir o título */
+        }
+
+        #notes-content {
+            width: 90%; /* Reduz a largura para caber melhor na tela */
+            max-width: 600px; /* Limita a largura máxima */
+            margin: 0 auto;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f3f3f3;
+        }
+
+        #note-input {
+            width: calc(100% - 20px); /* Largura ajustada para acomodar o preenchimento */
+            height: 300px;
+            padding: 10px;
+            font-size: 16px;
+            border: none; /* Remove a borda */
+            outline: none; /* Remove a aparência do foco */
+            resize: none; /* Impede o redimensionamento */
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>MEDNOTE</h1>
+    </div>
+    <div id="container">
+        <!-- Aqui vamos exibir o título da lista -->
+        <h1 id="list-title"></h1>
+
+        <!-- Adicione o conteúdo das notas aqui -->
+        <div id="notes-content">
+            <textarea id="note-input" placeholder="Write your notes..."></textarea>
+        </div>
+    </div>
+
+    <!-- Adicione quaisquer scripts necessários aqui -->
+    <script>
+        // Recupera o título da lista da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const title = urlParams.get('title');
+
+        // Define o título da lista na página
+        const listTitleElement = document.getElementById('list-title');
+        listTitleElement.textContent = title || "Untitled"; // Adiciona um título padrão se não houver nenhum título definido
+    </script>
+</body>
+</html>
