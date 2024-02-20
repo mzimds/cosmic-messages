@@ -21,18 +21,18 @@
         }
 
         #header h1 {
-        color: #ffffff;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
-        margin-bottom: 5px;
-        margin-top: 10px;
-        /* Adicione transformação para inclinar o texto */
-        transform: perspective(1px) skewY(-5deg);
-        display: inline-block;
-        background-color: #000000;
-        padding: 5px 10px; /* Adicione algum preenchimento para torná-lo visível */
-        margin-left: auto;
-        margin-right: auto;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin-bottom: 5px;
+            margin-top: 10px;
+            /* Adicione transformação para inclinar o texto */
+            transform: perspective(1px) skewY(-5deg);
+            display: inline-block;
+            background-color: #000000;
+            padding: 5px 10px; /* Adicione algum preenchimento para torná-lo visível */
+            margin-left: auto;
+            margin-right: auto;
         }
 
         #header {
@@ -300,7 +300,6 @@
             overflow: hidden;
             transition: margin-left 0.5s;
             position: relative;
-            
         }
 
         .list-options {
@@ -315,7 +314,6 @@
         }
 
         .list-options-menu {
-            display: none;
             position: absolute;
             right: 0;
             top: 100%;
@@ -371,7 +369,6 @@
 
     <div id="header">
         <h1>MEDNOTE</h1>
-        </div>
     </div>
 
     <div id="pathToGo">
@@ -382,20 +379,17 @@
         </form>
     </div>
 
-        <div id="create-list-text" onclick="openCreateListModal()">+ Add a List</div>
+    <div id="create-list-text" onclick="openCreateListModal()">+ Add a List</div>
 
-        <div id="list-buttons-container">
-            <div id="list-buttons">
-                <!-- List buttons will be dynamically added here -->
-            </div>
-        </div>
-
-        <div id="cards-container">
-            <!-- Cards will be dynamically added here -->
+    <div id="list-buttons-container">
+        <div id="list-buttons">
+            <!-- List buttons will be dynamically added here -->
         </div>
     </div>
 
-    <!-- ... (seu código existente) ... -->
+    <div id="cards-container">
+        <!-- Cards will be dynamically added here -->
+    </div>
 
     <!-- Create List Modal -->
     <div id="create-list-modal">
@@ -419,36 +413,13 @@
 
                 <!-- Botão "Create List" -->
                 <button class="create-list-button" onclick="createList(); closeCreateListModal()">Create List</button>
+                <div id="list-options-menu"></div>
+
             </div>
         </div>
     </div>
 
-    <!-- ... (seu código existente) ... -->
-
-    <script>
-        // ... (seu código existente) ...
-
-        function toggleLockIcon() {
-            var lockIcon = document.getElementById('lock-icon');
-            var lockContainer = document.querySelector('.lock-container');
-
-            // Adiciona ou remove a classe 'fa-lock-open' para alternar o ícone
-            if (lockIcon.classList.contains('fa-lock-open')) {
-                lockIcon.classList.remove('fa-lock-open');
-                lockIcon.classList.add('fa-lock');
-                lockContainer.classList.remove('public');
-                lockContainer.classList.add('private');
-            } else {
-                lockIcon.classList.remove('fa-lock');
-                lockIcon.classList.add('fa-lock-open');
-                lockContainer.classList.remove('private');
-                lockContainer.classList.add('public');
-            }
-        }
-</script>
-
-    
-
+    <!-- JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/glider-js@1.7.10/glider.min.js"></script>
     <script>
         let lists = [];
@@ -498,7 +469,7 @@
             }, 100);
         }
 
-            function updateInterface() {
+        function updateInterface() {
             const listButtonsContainer = document.getElementById('list-buttons');
             listButtonsContainer.innerHTML = "";
 
@@ -509,7 +480,7 @@
 
                 let listOptions = document.createElement('div');
                 listOptions.classList.add('list-options');
-                listOptions.innerHTML = `<i class="fa fa-plus-square" aria-hidden="true"></i>`;
+                listOptions.innerHTML = `<i class="fa fa-ellipsis-v" aria-hidden="true" onclick="showListOptions(event, ${index})"></i>`;
 
                 // Adiciona o evento de clique ao elemento da lista criada
                 listButton.addEventListener('click', function() {
@@ -519,42 +490,39 @@
                 listButton.appendChild(listOptions);
                 listButtonsContainer.appendChild(listButton);
             });
+        }   
+
+        function editListTitle(index) {
+            let newListTitle = prompt("Enter new title:");
+            if (newListTitle !== null && newListTitle.trim() !== "") {
+                lists[index].title = newListTitle.trim();
+                updateInterface();
+                saveListsToLocalStorage();
+            }
         }
 
-                function redirectToNotes(title) {
+        function redirectToNotes(title) {
             // Construa a URL da página de notas, passando o título da lista como parâmetro
             const url = `pagina-de-notas.html?title=${encodeURIComponent(title)}`;
             // Redirecione para a página de notas
             window.location.href = url;
         }
 
+        function toggleLockIcon() {
+            var lockIcon = document.getElementById('lock-icon');
+            var lockContainer = document.querySelector('.lock-container');
 
-        function toggleVisibilityIcon() {
-        var visibilityToggle = document.getElementById('visibility-toggle');
-        var visibilityIcon = document.querySelector('.switch-label::before');
-
-        visibilityToggle.checked = !visibilityToggle.checked;
-
-        if (visibilityToggle.checked) {
-            visibilityIcon.style.transform = 'translate(-50%, -50%) translateX(16px)';
-        } else {
-            visibilityIcon.style.transform = 'translate(-50%, -50%)';
-        }
-    }
-
-        function iconClick(icon, index) {
-            switch (icon) {
-                case 'plane':
-                    // Lógica para ícone de envio
-                    break;
-                case 'pencil':
-                    // Lógica para ícone de lápis
-                    break;
-                case 'trash':
-                    // Lógica para ícone de lixeira
-                    break;
-                default:
-                    break;
+            // Adiciona ou remove a classe 'fa-lock-open' para alternar o ícone
+            if (lockIcon.classList.contains('fa-lock-open')) {
+                lockIcon.classList.remove('fa-lock-open');
+                lockIcon.classList.add('fa-lock');
+                lockContainer.classList.remove('public');
+                lockContainer.classList.add('private');
+            } else {
+                lockIcon.classList.remove('fa-lock');
+                lockIcon.classList.add('fa-lock-open');
+                lockContainer.classList.remove('private');
+                lockContainer.classList.add('public');
             }
         }
 
@@ -570,19 +538,30 @@
             localStorage.setItem('mednote_lists', JSON.stringify(lists));
         }
 
-        function updateGlider() {
-            const listButtonsContainer = document.getElementById('list-buttons-container');
-            const glider = new Glider(listButtonsContainer, {
-                slidesToShow: 'auto',
-                slidesToScroll: 1,
-                draggable: true,
-                dots: '#dots',
-                arrows: {
-                    prev: '#glider-prev',
-                    next: '#glider-next'
-                }
-            });
-        }
+        function showListOptions(event, index) {
+    event.stopPropagation(); // Impede a propagação do evento de clique para o pai
+
+    const listButton = document.querySelectorAll('.list-button')[index];
+    const listOptionsMenuCurrent = document.getElementById('list-options-menu');
+
+    listOptionsMenuCurrent.innerHTML = `
+        <div class="list-options-menu">
+            <div class="list-options-menu-item">Share</div>
+            <div class="list-options-menu-item" onclick="editListTitle(${index})">Rename</div>
+            <div class="list-options-menu-item" onclick="deleteList(${index})">Delete</div>
+        </div>`;
+
+    // Posiciona o menu em relação ao botão clicado
+    const buttonRect = listButton.getBoundingClientRect();
+    listOptionsMenuCurrent.style.top = `${buttonRect.bottom}px`;
+    listOptionsMenuCurrent.style.left = `${buttonRect.right}px`;
+
+    // Exibe o menu
+    listOptionsMenuCurrent.style.display = 'block';
+}
+
+
+        
     </script>
 </body>
 
